@@ -16,16 +16,15 @@ const get = (obj, path) => {
 const SECOND = 1000;
 
 /**
- * Enables the nofity option for properties to fire change notification events
+ * TODO
  *
  * @param {LitElement} baseElement - the LitElement to extend
  */
 export const NgLit = (baseElement) => class extends baseElement {
+
     /**
-     * Extend the LitElement `createProperty` method to map properties to events
+     * Extend the LitElement `createProperty` method to map angular properties
      */
-
-
     static createProperty(name, options) {
         super.createProperty(name, options);
 
@@ -39,7 +38,7 @@ export const NgLit = (baseElement) => class extends baseElement {
     }
 
     /**
-     * check for changed properties with notify option and fire the events
+     * check for changed properties and inject anuglar properties if possible
      */
 
 
