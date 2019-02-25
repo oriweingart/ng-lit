@@ -1,3 +1,5 @@
+import {watchIfNeeded} from "./watchers";
+
 const get = (obj, path) => {
     let paths = path.split('.')
         , current = obj
@@ -14,57 +16,6 @@ const get = (obj, path) => {
 }
 
 const SECOND = 1000;
-
-/**
- * Mixing that run lit-element's requestUpdate() when a prop is changed on the object
- * @param obj
- * @param elm
- */
-const objectWatcherMixing = (obj, elm, scope) => {
-    obj.__litElms = obj.__litElms || [];
-    obj.__litElms.push(elm);
-    Object.keys(obj).filter(key=>!key.startsWith('__')).map(
-      prop => {
-          let value = obj[prop];
-          delete obj[prop];
-          obj[`__${prop}`] = value;
-          Object.defineProperty(obj, prop, {
-              get: function () {
-                  return obj[`__${prop}`]
-              },
-              set: function (val) {
-                  obj[`__${prop}`] = val;
-                  obj.__litElms.map(
-                    theElm => theElm.requestUpdate()
-                  );
-                  scope.$applyAsync();
-              }
-          });
-      }
-    )
-}
-
-/**
- * Mixing that run lit-element's requestUpdate() when an array was changed
- * @param arr
- * @param elm
- */
-const ARRAY_MUTATIONS = ['fill', 'pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'];
-const arrayWatcherMixing = (arr, elm, scope) => {
-    ARRAY_MUTATIONS.map(
-      mutationName => {
-          arr.__litElms = arr.__litElms || [];
-          arr.__litElms.push(elm);
-          arr[mutationName] = function () {
-              Array.prototype[mutationName].apply(this, arguments);
-              arr.__litElms.map(
-                theElm => theElm.requestUpdate()
-              );
-              scope.$applyAsync();
-          }
-      }
-  );
-};
 
 /**
  * @param {LitElement} baseElement - the LitElement to extend
@@ -133,19 +84,7 @@ export const NgLit = baseElement => class extends baseElement {
                 this[ngPropName] = null;
                 changedProps.delete(ngPropName);
             } else {
-                // Watch it
-                if (ngPropOptions.watch && !ngPropOptions._watcher) {
-                    // Array
-                    if (Array.isArray(ngValue)) {
-                        ngPropOptions._watcher = true;
-                        arrayWatcherMixing(ngValue, this, scope);
-                    }
-                    // Object
-                    if (ngValue.constructor == Object) {
-                        ngPropOptions._watcher = true;
-                        objectWatcherMixing(ngValue, this, scope)
-                    }
-                }
+                watchIfNeeded(ngPropOptions, this, scope, ngValue);
                 this[ngPropName] = ngValue;
                 changedProps.set(ngPropName, ngValue);
             }
