@@ -1,0 +1,48 @@
+<script src="../node_modules/angular/angular.js"></script>
+<script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+<script type="module">
+  import {NgLitUser} from "./lit-elements";
+  customElements.define('nglit-user', NgLitUser);
+</script>
+<div ng-app="myApp" ng-controller="myCtrl">
+    <h3 class="title">Trancluded nglit-element within ng-red-panel directive</h3>
+    <ng-red-panel>
+        <nglit-user user="ngUser"></nglit-user>
+    </ng-red-panel>
+    <div ng-if="ngUser">NG User: {{ngUser.firstName}} {{ngUser.lastName}} {{ngUser.items}}</div>
+</div>
+
+<script>
+  const app = angular.module('myApp', []);
+  app.controller('myCtrl', function ($scope) {
+    $scope.ngUser = {
+      firstName: "John",
+      lastName: "Doe",
+      items: ['macbook', 'dog', 'lit']
+    };
+
+    $scope.tempItem;
+    $scope.addItem = item => {
+      $scope.tempItem = null;
+      $scope.ngUser.items.push(item)
+    }
+
+    $scope.ngUsers = [{
+      firstName: "ngName1.1",
+      lastName: "ngName1.2",
+    }, {
+      firstName: "ngName2.1",
+      lastName: "ngName2.1",
+    }]
+
+  });
+  app.directive('ngRedPanel', function () {
+    return {
+      restrict: 'E',
+      transclude: true,
+      template: '<div style="background-color: red"><div ng-transclude></div></div>'
+    };
+  });
+</script>
+
+

@@ -1,0 +1,27 @@
+<script src="../node_modules/angular/angular.js"></script>
+<script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+<script type="module">
+  import {NgLitWatchUser} from "./lit-elements";
+  customElements.define('nglit-watch-user', NgLitWatchUser);
+</script>
+<div ng-app="myApp" ng-controller="myCtrl">
+    <h3 class="title">nglit-element with watch:true on user object prop</h3>
+    <nglit-watch-user user="ngUser"></nglit-watch-user>
+    <h3>Edit User from NG</h3>
+    <input type="text" ng-model="ngUser.firstName">
+    <input type="text" ng-model="ngUser.lastName">
+    <div ng-if="ngUser">NG User: {{ngUser.firstName}} {{ngUser.lastName}} {{ngUser.items}}</div>
+</div>
+
+<script>
+  const app = angular.module('myApp', []);
+  app.controller('myCtrl', function ($scope) {
+    $scope.ngUser = {
+      firstName: "John",
+      lastName: "Doe",
+      items: ['macbook', 'dog', 'lit']
+    };
+  });
+</script>
+
+

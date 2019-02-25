@@ -16,7 +16,8 @@
     "@webcomponents/webcomponentsjs": "^2.2.6",
     "lit-element": "^2.0.1",
     "lit-html": "^1.0.0",
-    "polyserve": "^0.27.15"
+    "polyserve": "^0.27.15",
+    "angular": "1.6.9"
   },
   "scripts": {
     "start": "npm run serve",
