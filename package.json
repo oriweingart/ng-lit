@@ -1,11 +1,11 @@
 {
   "name": "@oriweingart/ngLit",
-  "version": "1.0.1",
+  "version": "0.1",
   "description": "Mixing to pass angular object and array from scope to lit-element",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/oriweingart/ngLit"
+    "url": "https://github.com/oriweingart/ng-lit"
   },
   "main": "index.js",
   "peerDependencies": {
