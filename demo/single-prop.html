@@ -5,18 +5,14 @@
   customElements.define('nglit-user', NgLitUser);
 </script>
 <div ng-app="myApp" ng-controller="myCtrl">
-    <h3 class="title">nglit-element with ngUser as single prop</h3>
     <nglit-user user="ngUser"></nglit-user>
-    <div ng-if="ngUser">NG User: {{ngUser.firstName}} {{ngUser.lastName}} {{ngUser.items}}</div>
 </div>
-
 <script>
   const app = angular.module('myApp', []);
   app.controller('myCtrl', function ($scope) {
     $scope.ngUser = {
       firstName: "John",
-      lastName: "Doe",
-      items: ['macbook', 'dog', 'lit']
+      lastName: "Doe"
     };
   });
 </script>

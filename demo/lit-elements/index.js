@@ -7,10 +7,9 @@ export class NgLitUser extends NgLit(LitElement) {
       user: {fromNg: true},
     };
   }
-
   render() {
     const {
-      user = {}
+      user
     } = this;
 
     return html`
