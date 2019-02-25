@@ -32,12 +32,13 @@ export class NgLitUser extends NgLit(LitElement) {
     return html`<h2>${user.firstName + " " + user.lastName}</h2>`;
   }
 }
+customElements.define('ng-lit-user', NgLitUser);
 ```
 
 #### angular controller
 ```html
 <div ng-app="myApp" ng-controller="myCtrl">
-    <nglit-user user="ngUser"></nglit-user>
+    <ng-lit-user user="ngUser"></nglit-user>
 </div>
 <script>
   angular.module('myApp', [])
