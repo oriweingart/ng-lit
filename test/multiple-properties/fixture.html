@@ -1,0 +1,28 @@
+<script src="../../node_modules/angular/angular.js"></script>
+<script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+<script type="module">
+  import {NgLitUserWithItems} from "../lit-elements";
+  customElements.define('ng-lit-user-with-items', NgLitUserWithItems);
+</script>
+<div ng-app="myApp" ng-controller="myCtrl">
+    <ng-lit-user-with-items
+            id="ng-lit-element"
+            user="ngUser"
+            items="ngUser.items">
+    </ng-lit-user-with-items>
+    <div id="ng-element"
+         ng-if="ngUser">user name and items in angular: {{ngUser.firstName}} {{ngUser.lastName}} {{ngUser.items}}
+    </div>
+</div>
+<script>
+  const app = angular.module('myApp', []);
+  app.controller('myCtrl', function ($scope) {
+    $scope.ngUser = {
+      firstName: "John",
+      lastName: "Doe",
+      items: ["dog", "laptop", "beer"]
+    };
+  });
+</script>
+
+
