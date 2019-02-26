@@ -6,6 +6,7 @@
 </script>
 <div ng-app="myApp" ng-controller="myCtrl">
     <nglit-user user="ngUser"></nglit-user>
+    <div ng-if="ngUser">NG User: {{ngUser.firstName}} {{ngUser.lastName}} {{ngUser.items}}</div>
 </div>
 <script>
   const app = angular.module('myApp', []);
