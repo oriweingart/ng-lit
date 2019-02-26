@@ -34,12 +34,38 @@ export const NgLit = baseElement => class extends baseElement {
         }
     }
     /**
+     * Check for changed properties and inject angular properties from scope if possible
+     */
+    update(changedProps) {
+        if (!this._shouldUpdateNgProp()) {
+            super.update(changedProps);
+            return;
+        }
+        this._getScope(({scope})=> {
+            this._commitWIthScope({scope, changedProps});
+        }, SECOND * 0.01)
+    }
+
+    /**
+     * Return true if we should update angular properties
+     * @returns {boolean}
+     * @private
+     */
+    _shouldUpdateNgProp() {
+        if (!this.constructor._ngProperties) {
+            return false;
+        }
+        // TODO: check if the changed prop is from angular
+        return true
+    }
+    /**
      * Runs a callback on the next digest cycle
      * @param cb
      */
-     _nextDigestWithScope (cb, waitTime) {
-        const scope = angular.element(this.parentElement).scope();
+     _getScope (cb, waitTime) {
+        const scope = this.__ngScope || angular.element(this.parentElement).scope();
         if (scope) {
+            this.__ngScope = scope;
             // Try to extract angular's $apply, otherwise use setTimeout
             const $body = angular.element(
               document.getElementsByTagName('ng-app')[0] ||
@@ -52,24 +78,11 @@ export const NgLit = baseElement => class extends baseElement {
         } else {
             if (waitTime) {
                 setTimeout(()=>{
-                    this._nextDigestWithScope(cb,0)
+                    this._getScope(cb,0)
                 }, waitTime)
             }
         }
     }
-    /**
-     * Check for changed properties and inject angular properties from scope if possible
-     */
-    update(changedProps) {
-        if (!this.constructor._ngProperties) {
-            super.update(changedProps);
-            return;
-        }
-        this._nextDigestWithScope(({scope})=> {
-            this._commitWIthScope({scope, changedProps})
-        }, SECOND * 0.01)
-    }
-
     /**
      * Commit an update with the scope and the changedProp
      * @param scope

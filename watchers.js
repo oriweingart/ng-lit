@@ -55,7 +55,6 @@ const arrayWatcherMixing = (arr, elm, scope) => {
  * @param scope
  */
 export const watchIfNeeded = (ngPropOptions, elm, scope, ngValue) => {
-  // Watch it
   if (ngPropOptions.watch && !ngPropOptions._watcher) {
     // Array
     if (Array.isArray(ngValue)) {
