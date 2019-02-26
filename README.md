@@ -1,7 +1,7 @@
-# Pass objects and arrays from angular scope to lit-element
+# Pass objects and arrays from AngularJS scope to lit-element
 
 
-Mixing class to pass angular objects and arrays from angular application into lit-element without parsing them as json.
+Mixing class to pass angular objects and arrays from [AngularJS](https://github.com/angular/angular.js) application into lit-element without parsing them as json.
 
 
 ## Install
@@ -16,12 +16,12 @@ npm install @oweingart/ng-lit
 #### lit-element
 ```javascript
 import {LitElement, html} from "lit-element";
-import {NgLit} from "../../index";
+import {NgLit} from "ng-lit";
 
 export class NgLitUser extends NgLit(LitElement) {
   static get properties() {
     return {
-      user: {fromNg: true},
+      user: {fromNg: true}
     };
   }
   render() {
