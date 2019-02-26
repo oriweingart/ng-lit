@@ -62,14 +62,10 @@ export class NgLitUserWithItems extends NgLit(LitElement) {
             `;
   }
 }
-
-
-
-
 export class NgLitWatchItems extends NgLit(LitElement) {
   static get properties() {
     return {
-      items: { fromNg: true, watch: true },
+      items: { fromNg: true, watch: true }
     };
   }
 
@@ -82,19 +78,19 @@ export class NgLitWatchItems extends NgLit(LitElement) {
 
   render() {
     const {
-      items = []
+      items
     } = this;
 
     return html`
-                <div>
-                    <h2>Lit Items</h2>
+                <div>items in ng-lit:
                     ${(items).map((item, index) => {
-                      return html`<div>${item}<button @click="${e => this.remove(index)}">remove from lit</button></div>`;
-                    })}
+                  return html`<span>${item}</span><button @click="${e => this.remove(index)}">remove from lit</button>
+                   `;})}
                 </div>
             `;
   }
 }
+
 export class NgLitWatchUser extends NgLit(LitElement) {
   static get properties() {
     return {
