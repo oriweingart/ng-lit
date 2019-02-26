@@ -23,16 +23,25 @@ describe('watch array property', async function () {
     assert(items ===  'items in ng-lit: dogremove from lit laptopremove from lit beerremove from lit');
   });
 
-  it('should add item from angular', async () => {
+  it('should add one item from angular', async () => {
+    this.timeout('40s');
+    await nightmare.type('#ng-element-input', 'new item from angular')
+      .click('#ng-element-button')
+      .wait(50)
+    const items = await nightmare.evaluate(() => document.querySelector('#ng-lit-element').shadowRoot.children[0].innerText).end();
+    assert(items ===  'items in ng-lit: dogremove from lit laptopremove from lit beerremove from lit new item from angularremove from lit');
+  })
+
+  it('should two items from angular', async () => {
+    this.timeout('40s');
     await nightmare.type('#ng-element-input', 'new item from angular')
                       .click('#ng-element-button')
                       .wait(50)
-    let items = await nightmare.evaluate(() => document.querySelector('#ng-lit-element').shadowRoot.children[0].innerText).end();
-    assert(items ===  'items in ng-lit: dogremove from lit laptopremove from lit beerremove from lit new item from angularremove from lit');
-    await nightmare.type('#ng-element-input', 'another item from angular')
-                        .click('#ng-element-button')
-                        .wait(50);
-    items = await nightmare.evaluate(() => document.querySelector('#ng-lit-element').shadowRoot.children[0].innerText).end();
+                      .type('#ng-element-input', 'another item from angular')
+                      .click('#ng-element-button')
+                      .wait(50);
+
+    const items = await nightmare.evaluate(() => document.querySelector('#ng-lit-element').shadowRoot.children[0].innerText).end();
     assert(items ===  'items in ng-lit: dogremove from lit laptopremove from lit beerremove from lit new item from angularremove from lit another item from angularremove from lit');
   });
 
