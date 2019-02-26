@@ -16,6 +16,7 @@
     "@open-wc/eslint-config": "^0.3.3",
     "@webcomponents/webcomponentsjs": "^2.2.6",
     "angular": "1.6.9",
+    "concurrently": "^4.1.0",
     "eslint": "^4.19.1",
     "lit-element": "^2.0.1",
     "lit-html": "^1.0.0",
@@ -26,6 +27,7 @@
   "scripts": {
     "start": "npm run serve",
     "serve": "polyserve --npm --module-resolution=node",
-    "test": "mocha test/**/*.js"
+    "test": "mocha test/**/*.js",
+    "test-ci": "concurrently --kill-others  \"npm start\" \"npm test\""
   }
 }
