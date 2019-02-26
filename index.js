@@ -19,7 +19,7 @@ export const NgLit = baseElement => {
             super.createProperty(name, options);
             if (options.fromNg) {
                 if (!this._ngProperties) {
-                    this._ngProperties = {}
+                    this._ngProperties = {};
                 }
                 this._ngProperties[name] = options;
             }
@@ -33,9 +33,10 @@ export const NgLit = baseElement => {
                 super.update(changedProps);
                 return;
             }
-            this._getScope(({scope}) => {
-                this._commitWIthScope({scope, changedProps});
-            }, SECOND * 0.01)
+            (async () => {
+                const scope = await this._getScope(SECOND * 0.3);
+                this._updateWithScope({ scope, changedProps });
+            })();
         }
 
         /**
@@ -48,31 +49,37 @@ export const NgLit = baseElement => {
                 return false;
             }
             // TODO: check if the changed prop is from angular
-            return true
+            return true;
         }
 
-        /**
-         * Runs a callback on the next digest cycle
-         * @param cb
-         */
-        _getScope(cb, waitTime) {
-            const scope = this.__ngScope || angular.element(this.parentElement).scope();
-            if (scope) {
-                this.__ngScope = scope;
-                // Try to extract angular's $apply, otherwise use setTimeout
-                const $body = angular.element(
-                  document.getElementsByTagName('ng-app')[0] ||
-                  document.querySelector("[ng-app]")
-                );
-                const nextDigest = get($body, 'scope().$root.$apply') || setTimeout;
-                nextDigest(() => {
-                    cb({scope})
-                })
-            } else if (waitTime) {
-                    setTimeout(() => {
-                        this._getScope(cb, 0)
-                    }, waitTime)
+        // TODO: refactor
+        _getScope(waitTime) {
+            return new Promise((resolve, reject) => {
+                if (this.__ngScope) {
+                    resolve(this.__ngScope);
                 }
+                let scope = angular.element(this.parentElement).scope();
+                if (scope) {
+                    this.__ngScope = scope;
+                    resolve(this.__ngScope);
+                } else if (waitTime) {
+                    setTimeout(async () => {
+                        scope = angular.element(this.parentElement).scope();
+                        this.__ngScope = scope;
+                        // Try to extract angular's $apply, otherwise use setTimeout
+                        const $body = angular.element(
+                          document.getElementsByTagName('ng-app')[0] ||
+                          document.querySelector("[ng-app]")
+                        );
+                        const nextDigest = get($body, 'scope().$root.$apply') || setTimeout;
+                        nextDigest(() => {
+                            resolve(this.__ngScope);
+                        });
+                    }, waitTime);
+                } else {
+                    reject(new Error('Scope was not found'));
+                }
+            });
         }
 
         /**
@@ -81,7 +88,7 @@ export const NgLit = baseElement => {
          * @param changedProps
          * @private
          */
-        _commitWIthScope({scope, changedProps}) {
+        _updateWithScope({ scope, changedProps }) {
             for (const [ngPropName, ngPropOptions] of Object.entries(this.constructor._ngProperties)) {
                 const ngPropRawValue = this.getAttribute(ngPropName);
                 const ngValue = get(scope, ngPropRawValue);
