@@ -7,7 +7,7 @@ Mixing class to pass angular objects and arrays from [AngularJS](https://github.
 ## Install
 
 ```bash
-npm install @oweingart/ng-lit
+npm install ng-lit
 ```
 
 
