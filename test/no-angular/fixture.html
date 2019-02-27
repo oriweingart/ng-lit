@@ -1,0 +1,37 @@
+<script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+<script type="module">
+  import { LitElement, html } from "lit-element";
+  import { NgLit } from "../../index";
+
+  class NgLitItems extends NgLit(LitElement) {
+    static get properties() {
+      return {
+        items: { fromNg: true },
+        name: { type: String }
+      };
+    }
+
+    render() {
+      const {
+        name,
+        items
+      } = this;
+
+      return html`<div>items in ng-lit: ${JSON.stringify(items)} and name: ${name}</div>`;
+    }
+  }
+
+  customElements.define('ng-lit-items', NgLitItems);
+</script>
+<div ng-app="myApp" ng-controller="myCtrl">
+    <ng-lit-items
+            id="ng-lit-element"
+            name="John"
+            items="ngUser.items">
+    </ng-lit-items>
+    <div id="ng-element"
+         ng-if="ngUser">items in angular: {{ngUser.items}}
+    </div>
+</div>
+
+

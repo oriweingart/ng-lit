@@ -55,22 +55,23 @@ export const NgLit = baseElement => {
         // TODO: refactor
         _getScope(waitTime) {
             return new Promise((resolve, reject) => {
+                const { angular } = window;
                 if (this.__ngScope) {
                     resolve(this.__ngScope);
                 }
-                let scope = angular.element(this.parentElement).scope();
+                let scope = angular ? angular.element(this.parentElement).scope() : null;
                 if (scope) {
                     this.__ngScope = scope;
                     resolve(this.__ngScope);
                 } else if (waitTime) {
                     setTimeout(async () => {
-                        scope = angular.element(this.parentElement).scope();
+                        scope = angular ? angular.element(this.parentElement).scope() : null;
                         this.__ngScope = scope;
                         // Try to extract angular's $apply, otherwise use setTimeout
-                        const $body = angular.element(
+                        const $body = angular ? angular.element(
                           document.getElementsByTagName('ng-app')[0] ||
                           document.querySelector("[ng-app]")
-                        );
+                        ) : null;
                         const nextDigest = get($body, 'scope().$root.$apply') || setTimeout;
                         nextDigest(() => {
                             resolve(this.__ngScope);
