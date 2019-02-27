@@ -1,0 +1,49 @@
+<script src="../../node_modules/angular/angular.js"></script>
+<script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+<script type="module">
+  import { LitElement, html } from "lit-element";
+  import { NgLit } from "../../index";
+
+  class NgLitUserWithItems extends NgLit(LitElement) {
+    static get properties() {
+      return {
+        user: { fromNg: true }
+      };
+    }
+
+    render() {
+      const {
+        user
+      } = this;
+
+      return html`<div>user name in ng-lit: ${`${user.firstName} ${user.lastName}`}</div>`;
+    }
+  }
+  customElements.define('ng-lit-user-with-items', NgLitUserWithItems);
+</script>
+<div ng-app="myApp" ng-controller="myCtrl">
+    <div id="ng-element"
+         ng-if="users">
+        <ng-lit-user-with-items
+                ng-repeat="user in users"
+                user="user">
+        </ng-lit-user-with-items>
+    </div>
+</div>
+<script>
+  angular.module('myApp', [])
+    .controller('myCtrl', $scope => {
+      $scope.users = [{
+        firstName: "John1",
+        lastName: "Doe1"
+      }, {
+        firstName: "John2",
+        lastName: "Doe2"
+      }, {
+        firstName: "John3",
+        lastName: "Doe3"
+      }];
+    })
+</script>
+
+
