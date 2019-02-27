@@ -1,7 +1,10 @@
-const assert = require('assert');
 const Nightmare = require('nightmare');
 const {
-  init
+  deepStrictEqual
+} = require('assert');
+const {
+  init,
+  COMMANDS :{  GET_NG_LIT_ELM, CLICK_REMOVE_ITEM_IN_NG_LIT }
 } = require('../utils');
 
 let nightmare = null;
@@ -13,27 +16,20 @@ describe('watch array property', async function () {
     await init(nightmare, __dirname);
   });
 
-  it('should validate angular draw the watched items', async () => {
-    const items = await nightmare.evaluate(() => document.querySelector('#ng-element').innerText).end();
-    assert(items === 'items in angular: ["dog","laptop","beer"]');
-  });
-
-  it('should validate ng-lit draw the watched items', async () => {
-    const items = await nightmare.evaluate(() => document.querySelector('#ng-lit-element').shadowRoot.children[0].innerText).end();
-    assert(items ===  'items in ng-lit: dogremove from lit laptopremove from lit beerremove from lit');
-  });
-
   it('should add one item from angular', async () => {
-    this.timeout('40s');
+    let items = await nightmare.evaluate(...GET_NG_LIT_ELM);
+    deepStrictEqual(items,'items in ng-lit: ["dog","laptop","beer"]  _remove item 0_  _remove item 1_  _remove item 2_');
     await nightmare.type('#ng-element-input', 'new item from angular')
       .click('#ng-element-button')
-      .wait(50)
-    const items = await nightmare.evaluate(() => document.querySelector('#ng-lit-element').shadowRoot.children[0].innerText).end();
-    assert(items ===  'items in ng-lit: dogremove from lit laptopremove from lit beerremove from lit new item from angularremove from lit');
+      .wait(50);
+    items = await nightmare.evaluate(...GET_NG_LIT_ELM).end();
+    deepStrictEqual(items,'items in ng-lit: ["dog","laptop","beer","new item from angular"]  _remove item 0_  _remove item 1_  _remove item 2_ _remove item 3_');
   })
 
-  it('should two items from angular', async () => {
+  it('should add two items from angular', async () => {
     this.timeout('40s');
+    let items = await nightmare.evaluate(...GET_NG_LIT_ELM);
+    deepStrictEqual(items,'items in ng-lit: ["dog","laptop","beer"]  _remove item 0_  _remove item 1_  _remove item 2_');
     await nightmare.type('#ng-element-input', 'new item from angular')
                       .click('#ng-element-button')
                       .wait(50)
@@ -41,8 +37,22 @@ describe('watch array property', async function () {
                       .click('#ng-element-button')
                       .wait(50);
 
-    const items = await nightmare.evaluate(() => document.querySelector('#ng-lit-element').shadowRoot.children[0].innerText).end();
-    assert(items ===  'items in ng-lit: dogremove from lit laptopremove from lit beerremove from lit new item from angularremove from lit another item from angularremove from lit');
+    items = await nightmare.evaluate(...GET_NG_LIT_ELM).end();
+    deepStrictEqual(items,'items in ng-lit: ["dog","laptop","beer","new item from angular","another item from angular"]  _remove item 0_ _remove item 1_  _remove item 2_  _remove item 3_  _remove item 4_');
+  });
+
+  it('should add one item from angular and remove it from ng-lit', async () => {
+    this.timeout('40s');
+    let items = await nightmare.evaluate(...GET_NG_LIT_ELM);
+    deepStrictEqual(items,'items in ng-lit: ["dog","laptop","beer"]  _remove item 0_  _remove item 1_  _remove item 2_');
+    await nightmare.type('#ng-element-input', 'new item from angular')
+      .click('#ng-element-button')
+      .wait(50);
+    items = await nightmare.evaluate(...GET_NG_LIT_ELM);
+    deepStrictEqual(items,'items in ng-lit: ["dog","laptop","beer","new item from angular"]  _remove item 0_  _remove item 1_  _remove item 2_ _remove item 3_');
+    await nightmare.evaluate(...CLICK_REMOVE_ITEM_IN_NG_LIT, 4);
+    items = await nightmare.evaluate(...GET_NG_LIT_ELM).end();
+    deepStrictEqual(items,'items in ng-lit: ["dog","laptop","beer"]  _remove item 0_  _remove item 1_  _remove item 2_');
   });
 
 });

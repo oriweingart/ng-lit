@@ -1,7 +1,36 @@
 <script src="../../node_modules/angular/angular.js"></script>
 <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
 <script type="module">
-  import {NgLitWatchItems} from "../lit-elements";
+  import { LitElement, html } from "lit-element";
+  import { NgLit } from "../../index";
+
+  class NgLitWatchItems extends NgLit(LitElement) {
+    static get properties() {
+      return {
+        items: { fromNg: true, watch: true }
+      };
+    }
+
+    remove(index) {
+      const {
+        items = []
+      } = this;
+      items.splice(index, 1);
+    }
+
+    render() {
+      const {
+        items
+      } = this;
+
+      return html`<div>items in ng-lit: ${JSON.stringify(items)}
+                    ${(items).map((item, index) => {
+                        return html`<button @click="${e => this.remove(index)}">_remove item ${index}_</button>
+                   `})}
+                  </div>`;
+    }
+  }
+
   customElements.define('ng-lit-watch-items', NgLitWatchItems);
 </script>
 <div ng-app="myApp" ng-controller="myCtrl">
@@ -10,7 +39,6 @@
             id="ng-lit-element"
             items="ngUser.items">
     </ng-lit-watch-items>
-
     <input  id="ng-element-input"
             type="text" ng-model="tempItem">
     <button id="ng-element-button"
@@ -23,17 +51,17 @@
 </div>
 
 <script>
-  const app = angular.module('myApp', []);
-  app.controller('myCtrl', function ($scope) {
-    $scope.ngUser = {
-      items: ["dog", "laptop", "beer"]
-    };
-    $scope.tempItem;
-    $scope.addItem = item => {
-      $scope.tempItem = null;
-      $scope.ngUser.items.push(item)
-    }
-  });
+  angular.module('myApp', [])
+    .controller('myCtrl', $scope => {
+      $scope.ngUser = {
+        items: ["dog", "laptop", "beer"]
+      };
+      $scope.tempItem;
+      $scope.addItem = item => {
+        $scope.tempItem = null;
+        $scope.ngUser.items.push(item);
+      }
+    });
 </script>
 
 
