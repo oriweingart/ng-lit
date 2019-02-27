@@ -1,4 +1,4 @@
-### :warning: Under development
+### :warning: Under development :hammer_and_wrench:
 
 # Pass objects and arrays from AngularJS scope to lit-element
 
