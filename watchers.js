@@ -11,7 +11,7 @@ export const isObject = obj => (typeof obj === "object" && obj !== null && typeo
  * @param value
  * @returns {boolean|*}
  */
-export const isOriginalObjectKey = value => value && value.startsWith && value.startsWith('__ngWatch');
+export const isOriginalObjectKey = value => (value && value.startsWith && value.startsWith('__ngWatch')) || value === '__litElms__';
 /**
  * Negation isOriginalObjectKey
  * @param value

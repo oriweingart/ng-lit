@@ -8,6 +8,8 @@ const {
   deepStrictEqual
 } = assert;
 
+console.log(isOriginalObjectKey('__litElms__'))
+
 describe('isOriginalObjectKey', () => {
 
   it('should return true for key that start with __ngWatch', () => {
@@ -15,6 +17,7 @@ describe('isOriginalObjectKey', () => {
     assert(isOriginalObjectKey('__ngWatchSomeProp'));
     assert(isOriginalObjectKey('__ngWatchSomeProp.2.2_'));
     assert(isOriginalObjectKey('__ngWatchSomeProp.2.2_XX_x_'));
+    assert(isOriginalObjectKey('__litElms__'));
   });
 
   it('should return all original keys', () => {
