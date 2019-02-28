@@ -16,32 +16,33 @@
         user
       } = this;
 
-      return html`<div>user name in ng-lit: ${`${user.firstName} ${user.lastName}`}</div>`;
+      return html`${user ? html`<div>user name in ng-lit: ${`${user.firstName} ${user.lastName}`}</div>` : null}`;
     }
   }
   customElements.define('ng-lit-user-with-items', NgLitUserWithItems);
 </script>
 <div ng-app="myApp" ng-controller="myCtrl">
-    <div id="ng-element"
-         ng-if="users">
-        <ng-lit-user-with-items
-                ng-repeat="user in users"
-                user="user">
-        </ng-lit-user-with-items>
+    <div ng-if="users">
+        <div ng-repeat="user in users">
+            <ng-lit-user-with-items
+                    id="ng-lit-element-{{$index}}"
+                    user="user">
+            </ng-lit-user-with-items>
+        </div>
     </div>
 </div>
 <script>
   angular.module('myApp', [])
     .controller('myCtrl', $scope => {
       $scope.users = [{
-        firstName: "John1",
-        lastName: "Doe1"
+        firstName: "Freddy",
+        lastName: "krueger"
       }, {
-        firstName: "John2",
-        lastName: "Doe2"
+        firstName: "Jason",
+        lastName: "Voorhees"
       }, {
-        firstName: "John3",
-        lastName: "Doe3"
+        firstName: "Michael",
+        lastName: "Myers"
       }];
     })
 </script>

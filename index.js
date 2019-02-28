@@ -29,14 +29,32 @@ export const NgLit = baseElement => {
          * Check for changed properties and inject angular properties from scope if possible
          */
         update(changedProps) {
-            if (!this._shouldUpdateNgProp()) {
-                super.update(changedProps);
+            if (this.__shouldUpdateNgProps(changedProps)) {
+                (async () => {
+                    const ngScope = await this.__getNgScope();
+                    this.__updateWithNgScope(ngScope, changedProps);
+                })();
                 return;
+            } else {
+                super.update(changedProps);
             }
-            (async () => {
-                const scope = await this._getScope(SECOND * 0.3);
-                this._updateWithScope({ scope, changedProps });
-            })();
+        }
+
+
+        /**
+         * Internal Methods
+         */
+
+
+        /**
+         * Check if a given prop name is an angular prop
+         * @param propName
+         * @returns {*|boolean}
+         * @private
+         */
+
+        __isNgProp(propName) {
+            return this.constructor._ngProperties && this.constructor._ngProperties.hasOwnProperty(propName)
         }
 
         /**
@@ -44,60 +62,71 @@ export const NgLit = baseElement => {
          * @returns {boolean}
          * @private
          */
-        _shouldUpdateNgProp() {
+        __shouldUpdateNgProps(changedProps) {
             if (!this.constructor._ngProperties) {
                 return false;
             }
-            // TODO: check if the changed prop is from angular
-            return true;
+            for (const changedPropKey of changedProps.keys()) {
+                if (this.__isNgProp(changedPropKey)) {
+                    return true
+                }
+            }
+            return false;
         }
 
-        // TODO: refactor
-        _getScope(waitTime) {
+        /**
+         * Return a promise that is resolved with angular's parent scope
+         * @returns {Promise<any>}
+         * @private
+         */
+        __getNgScope() {
             return new Promise((resolve, reject) => {
                 const { angular } = window;
                 if (this.__ngScope) {
                     resolve(this.__ngScope);
                 }
-                let scope = angular ? angular.element(this.parentElement).scope() : null;
-                if (scope) {
-                    this.__ngScope = scope;
+                let ngScope = angular ? angular.element(this.parentElement).scope() : null;
+                if (ngScope) {
+                    this.__ngScope = ngScope;
                     resolve(this.__ngScope);
-                } else if (waitTime) {
-                    setTimeout(async () => {
-                        scope = angular ? angular.element(this.parentElement).scope() : null;
-                        this.__ngScope = scope;
-                        // Try to extract angular's $apply, otherwise use setTimeout
-                        const $body = angular ? angular.element(
-                          document.getElementsByTagName('ng-app')[0] ||
-                          document.querySelector("[ng-app]")
-                        ) : null;
-                        const nextDigest = get($body, 'scope().$root.$apply') || setTimeout;
-                        nextDigest(() => {
-                            resolve(this.__ngScope);
-                        });
-                    }, waitTime);
                 } else {
-                    reject(new Error('Scope was not found'));
+                    setTimeout(async () => {
+                        ngScope = angular ? angular.element(this.parentElement).scope() : null;
+                        if (ngScope) {
+                            this.__ngScope = ngScope;
+                            // Try to extract angular's $apply, otherwise use setTimeout
+                            const $body = angular ? angular.element(
+                              document.getElementsByTagName('ng-app')[0] ||
+                              document.querySelector("[ng-app]")
+                            ) : null;
+                            const nextDigest = get($body, 'scope().$root.$apply') || setTimeout;
+                            nextDigest(() => {
+                                resolve(this.__ngScope);
+                            });
+                        } else {
+                            console.warn(`Angular scope want not found on ${this.constructor.name}`);
+                            resolve()
+                        }
+                    }, SECOND * 0.1);
                 }
             });
         }
 
         /**
          * Commit an update with the scope and the changedProp
-         * @param scope
+         * @param ngScope
          * @param changedProps
          * @private
          */
-        _updateWithScope({ scope, changedProps }) {
+        __updateWithNgScope(ngScope, changedProps) {
             for (const [ngPropName, ngPropOptions] of Object.entries(this.constructor._ngProperties)) {
                 const ngPropRawValue = this.getAttribute(ngPropName);
-                const ngValue = get(scope, ngPropRawValue);
+                const ngValue = get(ngScope, ngPropRawValue);
                 if (!ngValue || typeof ngValue === 'string') {
                     this[ngPropName] = null;
                     changedProps.delete(ngPropName);
                 } else {
-                    watchIfNeeded(ngPropOptions, this, scope, ngValue);
+                    watchIfNeeded(ngPropOptions, this, ngScope, ngValue);
                     this[ngPropName] = ngValue;
                     changedProps.set(ngPropName, ngValue);
                 }

@@ -3,7 +3,7 @@ const CONFIG = {
   URL: 'http://127.0.0.1:8081',
   PATH: 'test',
   FIXTURE: 'fixture.html',
-  WAIT: 1000
+  WAIT: 3000
 }
 
 const NG_LIT_ELM = '#ng-lit-element';
@@ -23,5 +23,7 @@ const init = async (nightmare, testFolder) => {
 
 module.exports = {
   init,
+  NG_LIT_ELM,
+  NG_ELM,
   COMMANDS
 };

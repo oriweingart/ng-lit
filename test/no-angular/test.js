@@ -10,7 +10,7 @@ const {
 let nightmare = null;
 describe('no angular', async function () {
 
-  this.timeout('30s');
+  this.timeout('60s');
   beforeEach(async () => {
     nightmare = new Nightmare();
     await init(nightmare, __dirname);

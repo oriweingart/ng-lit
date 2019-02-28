@@ -8,7 +8,7 @@ const {
 } = require('../utils');
 
 let nightmare = null;
-describe('single object property', async function() {
+describe('ng-transclude directive', async function() {
 
   this.timeout('60s');
   beforeEach(async () => {
@@ -16,12 +16,12 @@ describe('single object property', async function() {
     await init(nightmare, __dirname);
   });
 
-  it('should validate angular draw the user name', async () => {
-    const userName = await nightmare.evaluate(...GET_NG_ELM).end();
-    deepStrictEqual(userName, "user name in angular: John Doe");
+  it('should validate angular draw the TRNACLUDED directive', async () => {
+    const transcluded = await nightmare.evaluate(...GET_NG_ELM).end();
+    deepStrictEqual(transcluded, "TRNACLUDED:\n");
   });
 
-  it('should validate ng-lit draw the user name', async () => {
+  it('should validate ng-lit draw the user name within the TRNACLUDED directive', async () => {
     const userName = await nightmare.evaluate(...GET_NG_LIT_ELM).end();
     deepStrictEqual(userName, "user name in ng-lit: John Doe");
   });

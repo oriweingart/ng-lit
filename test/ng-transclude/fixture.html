@@ -22,13 +22,12 @@
   customElements.define('ng-lit-user', NgLitUser);
 </script>
 <div ng-app="myApp" ng-controller="myCtrl">
-    <ng-lit-user
-            id="ng-lit-element"
-            user="ngUser">
-    </ng-lit-user>
-    <div id="ng-element"
-         ng-if="ngUser">user name in angular: {{ngUser.firstName}} {{ngUser.lastName}}
-    </div>
+    <ng-panel id="ng-element">
+        <ng-lit-user
+                id="ng-lit-element"
+                user="ngUser">
+        </ng-lit-user>
+    </ng-panel>
 </div>
 <script>
   angular.module('myApp', [])
@@ -37,7 +36,14 @@
         firstName: "John",
         lastName: "Doe"
       };
-    });
+    })
+    .directive('ngPanel', () => {
+    return {
+      restrict: 'E',
+      transclude: true,
+      template: '<div>TRNACLUDED:<div ng-transclude></div></div>'
+    };
+  });
 </script>
 
 
