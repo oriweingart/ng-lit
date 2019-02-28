@@ -55,10 +55,10 @@ export const objectWatcherMixing = (obj, litElm, ngScope) => {
 export const ARRAY_MUTATIONS = ['fill', 'pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'];
 
 export const arrayWatcherMixing = (arr, litElm, ngScope) => {
+  arr.__litElms__ = arr.__litElms__ || [];
+  arr.__litElms__.push(litElm);
   ARRAY_MUTATIONS.map(
     mutationName => {
-      arr.__litElms__ = arr.__litElms__ || [];
-      arr.__litElms__.push(litElm);
       arr[mutationName] = function () {
         Array.prototype[mutationName].apply(this, arguments);
         arr.__litElms__.map(

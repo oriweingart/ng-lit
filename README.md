@@ -17,13 +17,13 @@ npm install ng-lit
 
 #### lit-element
 ```javascript
-import {LitElement, html} from "lit-element";
-import {NgLit} from "ng-lit";
+import { LitElement, html } from "lit-element";
+import { NgLit } from "ng-lit";
 
 export class NgLitUser extends NgLit(LitElement) {
   static get properties() {
     return {
-      user: {fromNg: true}
+      user: {fromNg: true} // Flag this is an angular prop
     };
   }
   render() {

@@ -8,29 +8,10 @@ const {
 
 describe('objectWatcherMixing', () => {
 
-  let obj = {
-    someKey1: 'someValue1',
-    someKey2: 'someValue2'
-  };
-  let litElmStub1 = {
-    called: 0,
-    requestUpdate: () => {
-      litElmStub1.called++;
-    }
-  }
-  let litElmStub2 = {
-    called: 0,
-    requestUpdate: () => {
-      litElmStub2.called++;
-    }
-  }
-
-  let ngScopeStub = {
-    called: 0,
-    $applyAsync: () => {
-      ngScopeStub.called++;
-    }
-  }
+  let obj;
+  let litElmStub1;
+  let litElmStub2;
+  let ngScopeStub;
 
   beforeEach(()=> {
     obj = {
@@ -41,6 +22,12 @@ describe('objectWatcherMixing', () => {
       called: 0,
       requestUpdate: () => {
         litElmStub1.called++;
+      }
+    }
+    litElmStub2 = {
+      called: 0,
+      requestUpdate: () => {
+        litElmStub2.called++;
       }
     }
     ngScopeStub = {
