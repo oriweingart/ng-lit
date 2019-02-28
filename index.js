@@ -120,15 +120,15 @@ export const NgLit = baseElement => {
          */
         __updateWithNgScope(ngScope, changedProps) {
             for (const [ngPropName, ngPropOptions] of Object.entries(this.constructor._ngProperties)) {
-                const ngPropRawValue = this.getAttribute(ngPropName);
-                const ngValue = get(ngScope, ngPropRawValue);
-                if (!ngValue || typeof ngValue === 'string') {
+                const pathOnScope = this.getAttribute(ngPropName);
+                const ngValueOnScope = get(ngScope, pathOnScope);
+                if (!ngValueOnScope || typeof ngValueOnScope === 'string') {
                     this[ngPropName] = null;
                     changedProps.delete(ngPropName);
                 } else {
-                    watchIfNeeded(ngPropOptions, this, ngScope, ngValue);
-                    this[ngPropName] = ngValue;
-                    changedProps.set(ngPropName, ngValue);
+                    watchIfNeeded(ngPropOptions, this, ngScope, ngValueOnScope);
+                    this[ngPropName] = ngValueOnScope;
+                    changedProps.set(ngPropName, ngValueOnScope);
                 }
             }
             super.update(changedProps);
