@@ -2,6 +2,8 @@
 
 # Pass objects and arrays from AngularJS scope to lit-element
 [![Build Status](https://api.travis-ci.org/oriweingart/ng-lit.svg?branch=master)](https://travis-ci.com/oriweingart/ng-lit)
+[![NPM version](https://badge.fury.io/js/ng-lit.svg)](https://travis-ci.com/oriweingart/ng-lit)
+
 
 Mixing class to pass angular objects and arrays from [AngularJS](https://github.com/angular/angular.js) application into lit-element without parsing them as json.
 
