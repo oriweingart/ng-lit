@@ -1,70 +1,100 @@
+export const { isArray } = Array;
+
+/**
+ * Return true if object
+ * @param obj
+ * @returns {boolean}
+ */
+export const isObject = obj => (typeof obj === "object" && obj !== null && typeof obj !== "function" && !isArray(obj));
+/**
+ * Return true if a key object is the original value (__ngWatch<keyName>)
+ * @param value
+ * @returns {boolean|*}
+ */
+export const isOriginalObjectKey = value => value && value.startsWith && value.startsWith('__ngWatch');
+/**
+ * Negation isOriginalObjectKey
+ * @param value
+ * @returns {boolean}
+ */
+export const isNotOriginalObjectKey = value => !isOriginalObjectKey(value);
+
 /**
  * Mixing that run lit-element's requestUpdate() when a prop is changed on the object
  * @param obj
- * @param elm
+ * @param litElm
  */
-const objectWatcherMixing = (obj, elm, scope) => {
-  obj.__litElms = obj.__litElms || [];
-  obj.__litElms.push(elm);
-  Object.keys(obj).filter(key=>!key.startsWith('__')).map(
+export const objectWatcherMixing = (obj, litElm, ngScope) => {
+  obj.__litElms__ = obj.__litElms__ || [];
+  obj.__litElms__.push(litElm);
+  Object.keys(obj).filter(isNotOriginalObjectKey).map(
     prop => {
       let value = obj[prop];
       delete obj[prop];
-      obj[`__${prop}`] = value;
+      obj[`__ngWatch${prop}`] = value;
       Object.defineProperty(obj, prop, {
         get: function () {
-          return obj[`__${prop}`]
+          return obj[`__ngWatch${prop}`]
         },
         set: function (val) {
-          obj[`__${prop}`] = val;
-          obj.__litElms.map(
+          obj[`__ngWatch${prop}`] = val;
+          obj.__litElms__.map(
             theElm => theElm.requestUpdate()
           );
-          scope.$applyAsync();
+          ngScope.$applyAsync();
         }
       });
     }
-  )
+  );
 }
 /**
  * Mixing that run lit-element's requestUpdate() when an array was changed
  * @param arr
  * @param elm
  */
-const ARRAY_MUTATIONS = ['fill', 'pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'];
+export const ARRAY_MUTATIONS = ['fill', 'pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'];
 
-const arrayWatcherMixing = (arr, elm, scope) => {
+export const arrayWatcherMixing = (arr, litElm, ngScope) => {
   ARRAY_MUTATIONS.map(
     mutationName => {
-      arr.__litElms = arr.__litElms || [];
-      arr.__litElms.push(elm);
+      arr.__litElms__ = arr.__litElms__ || [];
+      arr.__litElms__.push(litElm);
       arr[mutationName] = function () {
         Array.prototype[mutationName].apply(this, arguments);
-        arr.__litElms.map(
-          theElm => theElm.requestUpdate()
+        arr.__litElms__.map(
+          litElmWatched => litElmWatched.requestUpdate()
         );
-        scope.$applyAsync();
+        ngScope.$applyAsync();
       }
     }
   );
 };
+
+
+/**
+ * Return true if ng prop need to be watched for changes
+ * @param ngPropOptions
+ */
+export const shouldWatchNgProp = ngPropOptions => ngPropOptions.watch && !ngPropOptions.__ngWatcher__;
+
+
 /**
  * Watch the props if needed
  * @param ngPropOptions
- * @param elm
- * @param scope
+ * @param litElm
+ * @param ngScope
  */
-export const watchIfNeeded = (ngPropOptions, elm, scope, ngValue) => {
-  if (ngPropOptions.watch && !ngPropOptions._watcher) {
+export const watchIfNeeded = (ngPropOptions, litElm, ngScope, ngValue) => {
+  if (shouldWatchNgProp(ngPropOptions)) {
     // Array
-    if (Array.isArray(ngValue)) {
-      ngPropOptions._watcher = true;
-      arrayWatcherMixing(ngValue, elm, scope);
+    if (isArray(ngValue)) {
+      ngPropOptions.__ngWatcher__ = 'array';
+      arrayWatcherMixing(ngValue, litElm, ngScope);
     }
     // Object
-    if (ngValue.constructor == Object) {
-      ngPropOptions._watcher = true;
-      objectWatcherMixing(ngValue, elm, scope)
+    if (isObject(ngValue)) {
+      ngPropOptions.__ngWatcher__ = 'object';
+      objectWatcherMixing(ngValue, litElm, ngScope)
     }
   }
 }

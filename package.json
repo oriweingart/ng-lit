@@ -13,6 +13,10 @@
     "lit-html": "^1.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/polyfill": "^7.2.5",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/register": "^7.0.0",
     "@open-wc/eslint-config": "^0.3.3",
     "@webcomponents/webcomponentsjs": "^2.2.6",
     "angular": "1.6.9",
@@ -27,10 +31,13 @@
   "scripts": {
     "start": "npm run serve",
     "serve": "polyserve --npm --module-resolution=node",
-    "test": "mocha test/**/*.js",
+    "test:unit": "mocha --require @babel/register --require @babel/polyfill test/unit/*.test.js",
+    "test:e2e": "mocha test/e2e/**/*.js",
     "test-ci": "concurrently --kill-others  \"npm start\" \"npm test\""
   },
   "dependencies": {
+    "babelify": "^10.0.0",
+    "browserify": "^16.2.3",
     "lodash-es": "latest"
   }
 }
