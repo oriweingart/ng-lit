@@ -5,5 +5,5 @@ node_js:
 before_script:
   - npm install
 script:
-  - npm run serve
+  - npm run serve &
   - npm run test
