@@ -3,7 +3,7 @@ const CONFIG = {
   URL: 'http://127.0.0.1:8081',
   PATH: 'test/e2e',
   FIXTURE: 'fixture.html',
-  WAIT: 3000
+  WAIT: 10000
 }
 
 const NG_LIT_ELM = '#ng-lit-element';
