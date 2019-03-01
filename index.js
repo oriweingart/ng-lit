@@ -12,6 +12,7 @@ const SECOND = 1000;
  */
 export const NgLit = baseElement => {
     return class extends baseElement {
+
         /**
          * Extend the LitElement `createProperty` method to map angular properties
          */
