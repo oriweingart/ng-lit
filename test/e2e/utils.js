@@ -15,6 +15,28 @@ const COMMANDS = {
 }
 
 const init = async (nightmare, testFolder) => {
+
+  const http = require('http');
+
+  http.get('http://127.0.0.1:8081/test/e2e/watch-array/fixture.html', (resp) => {
+    let data = '';
+
+    // A chunk of data has been recieved.
+    resp.on('data', (chunk) => {
+      data += chunk;
+    });
+
+    // The whole response has been received. Print out the result.
+    resp.on('end', () => {
+      console.log("resonse from local server: ");
+      console.log(data);
+    });
+
+  }).on("error", (err) => {
+    console.log("Error: " + err.message);
+  });
+
+
   const testName = testFolder.split("/")[testFolder.split("/").length-1];
   const url = `${CONFIG.URL}/${CONFIG.PATH}/${testName}/${CONFIG.FIXTURE}`;
   console.log(url)
