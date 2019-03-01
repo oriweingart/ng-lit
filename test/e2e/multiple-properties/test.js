@@ -23,7 +23,10 @@ describe('multiple properties: array and object', function () {
       .then(text => {
         console.log(text)
         done()
-      })
+      }).catch(error => {
+      console.error('Search failed:', error)
+      done()
+    })
 
     // nightmare.evaluate(...GET_NG_ELM)
     //   .end()
