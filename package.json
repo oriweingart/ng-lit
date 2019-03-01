@@ -40,7 +40,7 @@
     "start": "npm run serve",
     "serve": "polyserve --npm --module-resolution=node",
     "test:unit": "mocha --require @babel/register --require @babel/polyfill test/unit/*.test.js",
-    "test:e2e": " mocha test/e2e/**/*.js",
+    "test:e2e": " mocha test/e2e/multiple-properties/*.js",
     "test": "npm run test:unit & npm run test:e2e"
   },
   "dependencies": {

@@ -8,12 +8,21 @@ const {
 } = require('../utils');
 
 let nightmare = null;
+console.log('before describe')
 describe('multiple properties: array and object', async function () {
 
   this.timeout('60s');
   beforeEach(async () => {
-    nightmare = new Nightmare();
-    await init(nightmare, __dirname);
+    try {
+      console.log('before beforeEach')
+      nightmare = new Nightmare();
+      console.log('new Nightmare')
+      await init(nightmare, __dirname);
+      console.log('after init')
+    } catch (e) {
+      console.log('error in beforeEach');
+      console.log(e);
+    }
   });
 
   it('should validate angular draw the items and user name', async () => {

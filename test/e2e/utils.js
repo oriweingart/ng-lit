@@ -14,33 +14,19 @@ const COMMANDS = {
   CLICK_REMOVE_ITEM_IN_NG_LIT: [(NG_LIT_ELM, index) => document.querySelector(NG_LIT_ELM).shadowRoot.querySelector(`div > button:nth-child(${index})`).click(), NG_LIT_ELM],
 }
 
+const log = str => console.log(`test utils: ${str}`)
+
 const init = async (nightmare, testFolder) => {
-
-  const http = require('http');
-
-  http.get('http://127.0.0.1:8081/test/e2e/watch-array/fixture.html', (resp) => {
-    let data = '';
-
-    // A chunk of data has been recieved.
-    resp.on('data', (chunk) => {
-      data += chunk;
-    });
-
-    // The whole response has been received. Print out the result.
-    resp.on('end', () => {
-      console.log("resonse from local server: ");
-      console.log(data);
-    });
-
-  }).on("error", (err) => {
-    console.log("Error: " + err.message);
-  });
-
-
+  log('init test')
+  log(`testFolder: ${testFolder}`)
+  log(`nightmare: ${nightmare}`)
   const testName = testFolder.split("/")[testFolder.split("/").length-1];
+  log(`testName: ${testName}`)
   const url = `${CONFIG.URL}/${CONFIG.PATH}/${testName}/${CONFIG.FIXTURE}`;
-  console.log(url)
+  log(`url: ${url}`)
+  log(`await: nightmare`)
   await nightmare.goto(url).wait(CONFIG.WAIT);
+  log(`finished await: nightmare`);
 }
 
 module.exports = {
