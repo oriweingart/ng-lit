@@ -1,4 +1,4 @@
-export const { isArray } = Array;
+const { isArray } = Array;
 
 /**
  * Return true if object
@@ -6,12 +6,14 @@ export const { isArray } = Array;
  * @returns {boolean}
  */
 export const isObject = obj => (typeof obj === "object" && obj !== null && typeof obj !== "function" && !isArray(obj));
+
 /**
  * Return true if a key object is the original value (__ngWatch<keyName>)
  * @param value
  * @returns {boolean|*}
  */
 export const isOriginalObjectKey = value => (value && value.startsWith && value.startsWith('__ngWatch')) || value === '__litElms__';
+
 /**
  * Negation isOriginalObjectKey
  * @param value
@@ -47,6 +49,7 @@ export const objectWatcherMixing = (obj, litElm, ngScope) => {
     }
   );
 }
+
 /**
  * Mixing that run lit-element's requestUpdate() when an array was changed
  * @param arr
