@@ -28,9 +28,9 @@ jobs:
 
       - run: npm install
       - run:
-          - name: run server
-          - command: npm run server
-          - background: true
+          name: run server
+          command: npm run server
+          background: true
 
       - save_cache:
           paths:
