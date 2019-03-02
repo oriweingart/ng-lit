@@ -33,7 +33,13 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      - run: npm run serve &
-
+      - run:
+          - command: npm run serve
+          - background: true
+      - run:
+          shell: /bin/sh
+          command: |
+            wget --retry-connrefused --waitretry=1 --read-timeout=20 --timeout=15 -t 10 http://127.0.01:8081
+            :
       # run tests!
       - run: npm test
