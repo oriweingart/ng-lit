@@ -22,12 +22,12 @@ jobs:
             - v1-dependencies-
 
       - run: npm install
+      - run: npm run serve &
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      - run: npm run serve &
         -
       # run tests!
       - run: npm test
