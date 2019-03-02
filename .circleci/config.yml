@@ -27,6 +27,10 @@ jobs:
             - v1-dependencies-
 
       - run: npm install
+      - run:
+          - name: run server
+          - command: npm run server
+          - background: true
 
       - save_cache:
           paths:
