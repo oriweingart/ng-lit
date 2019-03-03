@@ -38,7 +38,7 @@ describe('watch array property', async function () {
                       .wait(50);
 
     items = await nightmare.evaluate(...GET_NG_LIT_ELM).end();
-    deepStrictEqual(items,'items in ng-lit: ["dog","laptop","beer","new item from angular","another item from angular"]  _remove item 0_ _remove item 1_  _remove item 2_  _remove item 3_  _remove item 4_');
+    deepStrictEqual(items,'items in ng-lit: ["dog","laptop","beer","new item from angular","another item from angular"]  _remove item 0_  _remove item 1_ _remove item 2_  _remove item 3_  _remove item 4_');
   });
 
   it('should add one item from angular and remove it from ng-lit', async () => {
