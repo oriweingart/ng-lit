@@ -14,10 +14,15 @@ const COMMANDS = {
   CLICK_REMOVE_ITEM_IN_NG_LIT: [(NG_LIT_ELM, index) => document.querySelector(NG_LIT_ELM).shadowRoot.querySelector(`div > button:nth-child(${index})`).click(), NG_LIT_ELM],
 }
 
+const sleep = (ms) => {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 const init = async (nightmare, testFolder) => {
   const testName = testFolder.split("/")[testFolder.split("/").length-1];
   const url = `${CONFIG.URL}/${CONFIG.PATH}/${testName}/${CONFIG.FIXTURE}`;
   await nightmare.goto(url).wait(CONFIG.WAIT);
+  await sleep(5000);
 }
 
 module.exports = {
