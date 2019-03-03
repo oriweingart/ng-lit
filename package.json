@@ -1,6 +1,6 @@
 {
   "name": "ng-lit",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Mixing to pass angular object and array from scope to lit-element",
   "keywords": [
     "lit-elemnt",
