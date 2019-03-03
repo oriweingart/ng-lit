@@ -15,6 +15,9 @@ const COMMANDS = {
 }
 
 const init = async (nightmare, testFolder) => {
+  console.log(
+    `nightmare.engineVersions() ${JSON.stringify(nightmare.engineVersions())}`
+  )
   const testName = testFolder.split("/")[testFolder.split("/").length-1];
   const url = `${CONFIG.URL}/${CONFIG.PATH}/${testName}/${CONFIG.FIXTURE}`;
   console.log(url)
