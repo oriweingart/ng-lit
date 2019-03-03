@@ -1,7 +1,7 @@
 ### :warning: Under development :hammer_and_wrench:
 
 # Pass objects and arrays from AngularJS scope to lit-element
-[![Build Status](https://api.travis-ci.org/oriweingart/ng-lit.svg?branch=master)](https://travis-ci.com/oriweingart/ng-lit)
+[![CircleCI](https://circleci.com/gh/oriweingart/ng-lit.svg?style=svg)](https://circleci.com/gh/oriweingart/ng-lit)
 [![NPM version](https://badge.fury.io/js/ng-lit.svg)](https://travis-ci.com/oriweingart/ng-lit)
 
 
