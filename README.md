@@ -24,7 +24,7 @@ import { NgLit } from "ng-lit";
 export class NgLitUser extends NgLit(LitElement) {
   static get properties() {
     return {
-      user: {fromNg: true} // Flag this is an angular prop
+      user: {fromNg: true} // Flag the prop as an angular object
     };
   }
   render() {
