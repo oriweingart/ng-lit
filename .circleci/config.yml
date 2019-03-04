@@ -22,7 +22,7 @@ jobs:
             - v1-dependencies-
 
       - run: npm install
-      - run: npm lint
+      - run: npm run lint
       - run:
           name: run server
           command: npm run serve
