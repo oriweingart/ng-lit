@@ -1,11 +1,11 @@
 ### :warning: Under development :hammer_and_wrench:
 
-# Pass objects and arrays from AngularJS scope to lit-element
+# Pass objects and arrays from AngularJS scope to LitElement
 [![CircleCI](https://circleci.com/gh/oriweingart/ng-lit.svg?style=svg)](https://circleci.com/gh/oriweingart/ng-lit)
 [![NPM version](https://badge.fury.io/js/ng-lit.svg)](https://travis-ci.com/oriweingart/ng-lit)
 
 
-Mixing class to pass angular objects and arrays from [AngularJS](https://github.com/angular/angular.js) application into lit-element without parsing them as json.
+Mixing class to pass angular objects and arrays from [AngularJS](https://github.com/angular/angular.js) application into [lit-element](https://github.com/Polymer/lit-element) without parsing them as json.
 
 ## Install
 
@@ -16,7 +16,7 @@ npm install ng-lit
 
 ## Simple usage
 
-#### lit-element
+#### LitElement
 ```javascript
 import { LitElement, html } from "lit-element";
 import { NgLit } from "ng-lit";
@@ -32,7 +32,7 @@ export class NgLitUser extends NgLit(LitElement) {
       user
     } = this;
 
-    return html`<h2>${user.firstName + " " + user.lastName}</h2>`;
+    return html`<h2>First Name: ${user.firstName} Last Name: ${user.lastName}</h2>`;
   }
 }
 customElements.define('ng-lit-user', NgLitUser);
@@ -40,7 +40,8 @@ customElements.define('ng-lit-user', NgLitUser);
 
 #### angular controller
 ```html
-<div ng-app="myApp" ng-controller="myCtrl">
+<div ng-app="myApp" 
+     ng-controller="myCtrl">
     <ng-lit-user user="ngUser"></nglit-user>
 </div>
 <script>
