@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins,no-restricted-syntax */
 import {
     get
 } from "lodash-es";
@@ -34,7 +35,7 @@ export const NgLit = baseElement => {
                     const ngScope = await this.__getNgScope();
                     this.__updateWithNgScope(ngScope, changedProps);
                 })();
-                return;
+
             } else {
                 super.update(changedProps);
             }
@@ -54,7 +55,7 @@ export const NgLit = baseElement => {
          */
 
         __isNgProp(propName) {
-            return this.constructor._ngProperties && this.constructor._ngProperties.hasOwnProperty(propName)
+            return this.constructor._ngProperties && this.constructor._ngProperties.hasOwnProperty(propName);
         }
 
         /**
@@ -68,7 +69,7 @@ export const NgLit = baseElement => {
             }
             for (const changedPropKey of changedProps.keys()) {
                 if (this.__isNgProp(changedPropKey)) {
-                    return true
+                    return true;
                 }
             }
             return false;
@@ -80,7 +81,7 @@ export const NgLit = baseElement => {
          * @private
          */
         __getNgScope() {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 const { angular } = window;
                 if (this.__ngScope) {
                     resolve(this.__ngScope);
@@ -105,7 +106,7 @@ export const NgLit = baseElement => {
                             });
                         } else {
                             console.warn(`Angular scope want not found on ${this.constructor.name}`);
-                            resolve()
+                            resolve();
                         }
                     }, SECOND * 0.1);
                 }

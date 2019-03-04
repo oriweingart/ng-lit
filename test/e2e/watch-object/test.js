@@ -1,11 +1,9 @@
-const Nightmare = require('nightmare');
-const {
-  deepStrictEqual
-} = require('assert');
-const {
-  init,
-  COMMANDS :{  GET_NG_LIT_ELM, CLICK_REMOVE_ITEM_IN_NG_LIT }
-} = require('../utils');
+import Nightmare from "nightmare";
+import { deepStrictEqual } from 'assert';
+import { init, COMMANDS } from '../utils';
+
+const { GET_NG_LIT_ELM } = COMMANDS;
+
 
 let nightmare = null;
 describe('watch object property', async function () {
@@ -23,6 +21,6 @@ describe('watch object property', async function () {
       .wait(50);
     items = await nightmare.evaluate(...GET_NG_LIT_ELM).end();
     deepStrictEqual(items,'user name in ng-lit: John Doe with new name from angular');
-  })
+  });
 
 });

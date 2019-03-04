@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign,array-callback-return */
 export const { isArray } = Array;
 
 /**
@@ -29,14 +30,14 @@ export const objectWatcherMixing = (obj, litElm, ngScope) => {
   obj.__litElms__.push(litElm);
   Object.keys(obj).filter(isNotOriginalObjectKey).map(
     prop => {
-      let value = obj[prop];
+      const value = obj[prop];
       delete obj[prop];
       obj[`__ngWatch${prop}`] = value;
       Object.defineProperty(obj, prop, {
-        get: function () {
-          return obj[`__ngWatch${prop}`]
+        get () {
+          return obj[`__ngWatch${prop}`];
         },
-        set: function (val) {
+        set (val) {
           obj[`__ngWatch${prop}`] = val;
           obj.__litElms__.map(
             theElm => theElm.requestUpdate()
@@ -46,7 +47,7 @@ export const objectWatcherMixing = (obj, litElm, ngScope) => {
       });
     }
   );
-}
+};
 /**
  * Mixing that run lit-element's requestUpdate() when an array was changed
  * @param arr
@@ -59,13 +60,13 @@ export const arrayWatcherMixing = (arr, litElm, ngScope) => {
   arr.__litElms__.push(litElm);
   ARRAY_MUTATIONS.map(
     mutationName => {
-      arr[mutationName] = function () {
-        Array.prototype[mutationName].apply(this, arguments);
+      arr[mutationName] = function (...args) {
+        Array.prototype[mutationName].apply(this, args);
         arr.__litElms__.map(
           litElmWatched => litElmWatched.requestUpdate()
         );
         ngScope.$applyAsync();
-      }
+      };
     }
   );
 };
@@ -94,7 +95,7 @@ export const watchIfNeeded = (ngPropOptions, litElm, ngScope, ngValue) => {
     // Object
     if (isObject(ngValue)) {
       ngPropOptions.__ngWatcher__ = 'object';
-      objectWatcherMixing(ngValue, litElm, ngScope)
+      objectWatcherMixing(ngValue, litElm, ngScope);
     }
   }
-}
+};

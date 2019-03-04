@@ -29,6 +29,7 @@
     "@webcomponents/webcomponentsjs": "^2.2.6",
     "angular": "1.6.9",
     "eslint": "^4.19.1",
+    "eslint-config-prettier": "^4.1.0",
     "lit-element": "^2.0.1",
     "lit-html": "^1.0.0",
     "mocha": "^6.0.2",
@@ -39,12 +40,11 @@
     "start": "npm run serve",
     "serve": "polyserve --npm --module-resolution=node",
     "test:unit": "mocha --require @babel/register --require @babel/polyfill test/unit/*.test.js",
-    "test:e2e": "mocha test/e2e/**/*.js",
-    "test": "npm run test:unit && npm run test:e2e"
+    "test:e2e": "mocha --require @babel/register --require @babel/polyfill test/e2e/**/*.js",
+    "test": "npm run test:unit && npm run test:e2e",
+    "lint": "eslint ."
   },
   "dependencies": {
-    "babelify": "^10.0.0",
-    "browserify": "^16.2.3",
     "lodash-es": "latest"
   }
 }
