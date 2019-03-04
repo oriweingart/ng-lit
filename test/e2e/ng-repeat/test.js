@@ -1,12 +1,7 @@
-const Nightmare = require('nightmare');
-const {
-  deepStrictEqual
-} = require('assert');
-const {
-  init,
-  NG_LIT_ELM,
-  COMMANDS :{ GET_NG_ELM, GET_NG_LIT_ELM }
-} = require('../utils');
+/* eslint-disable no-shadow */
+import Nightmare from "nightmare";
+import { deepStrictEqual } from 'assert';
+import { init, NG_LIT_ELM } from '../utils';
 
 let nightmare = null;
 describe('ng-repeat directive', async function () {
@@ -30,6 +25,5 @@ describe('ng-repeat directive', async function () {
     userName = await nightmare.evaluate(NG_LIT_ELM_WITH_ID => document.querySelector(NG_LIT_ELM_WITH_ID).shadowRoot.children[0].innerText, NG_LIT_ELM_WITH_ID).end();
     deepStrictEqual(userName, "user name in ng-lit: Michael Myers");
   });
-
 
 });

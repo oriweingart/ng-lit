@@ -1,11 +1,8 @@
-const Nightmare = require('nightmare');
-const {
-  deepStrictEqual
-} = require('assert');
-const {
-  init,
-  COMMANDS :{  GET_NG_LIT_ELM, CLICK_REMOVE_ITEM_IN_NG_LIT }
-} = require('../utils');
+import Nightmare from "nightmare";
+import { deepStrictEqual } from 'assert';
+import { init, COMMANDS } from '../utils';
+
+const { GET_NG_LIT_ELM, CLICK_REMOVE_ITEM_IN_NG_LIT } = COMMANDS;
 
 let nightmare = null;
 describe('watch array property', async function () {
@@ -24,7 +21,7 @@ describe('watch array property', async function () {
       .wait(50);
     items = await nightmare.evaluate(...GET_NG_LIT_ELM).end();
     deepStrictEqual(items,'items in ng-lit: ["dog","laptop","beer","new item from angular"]  _remove item 0_  _remove item 1_  _remove item 2_ _remove item 3_');
-  })
+  });
 
   it('should add two items from angular', async () => {
     this.timeout('40s');

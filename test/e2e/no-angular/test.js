@@ -1,11 +1,8 @@
-const Nightmare = require('nightmare');
-const {
-  deepStrictEqual
-} = require('assert');
-const {
-  init,
-  COMMANDS :{ GET_NG_LIT_ELM }
-} = require('../utils');
+import Nightmare from "nightmare";
+import { deepStrictEqual } from 'assert';
+import { init, COMMANDS } from '../utils';
+
+const { GET_NG_LIT_ELM } = COMMANDS;
 
 let nightmare = null;
 describe('no angular', async function () {

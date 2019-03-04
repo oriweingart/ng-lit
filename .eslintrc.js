@@ -3,6 +3,7 @@ module.exports = {
   rules: {
     'class-methods-use-this': 0,
     'no-return-assign': 0,
+    'no-plusplus': 0,
     'object-curly-spacing': [2, 'always'],
     semi: 2,
   },
