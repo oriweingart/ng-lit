@@ -15,11 +15,10 @@
 
     static get ngProps() {
       return {
-        user: { default: {} },
+        user: { default: { firstName: 'Default First Name', lastName: 'Default Last Name'} },
         items: { default: [] }
       }
     }
-
 
     render() {
       const {
@@ -35,7 +34,7 @@
 <div ng-app="myApp" ng-controller="myCtrl">
     <ng-lit-user-with-items
             id="ng-lit-element"
-            user="ngUser"
+            user="notExistingUser"
             items="ngUser.items">
     </ng-lit-user-with-items>
     <div id="ng-element"

@@ -1,10 +1,6 @@
-/* eslint-disable no-prototype-builtins,no-restricted-syntax */
-import {
-    get
-} from "lodash-es";
-import {
-    watchIfNeeded
-} from "./watchers";
+/* eslint-disable no-prototype-builtins,no-restricted-syntax,no-param-reassign */
+import { get } from "lodash-es";
+import { watchIfNeeded } from "./watchers";
 
 const SECOND = 1000;
 
@@ -13,37 +9,38 @@ const SECOND = 1000;
  */
 export const NgLit = baseElement => {
     return class extends baseElement {
-        /**
-         * Extend the LitElement `createProperty` method to map angular properties
-         */
-        static createProperty(name, options) {
-            super.createProperty(name, options);
-            if (options.fromNg) {
-                if (!this._ngProperties) {
-                    this._ngProperties = {};
-                }
-                this._ngProperties[name] = options;
-            }
-        }
 
         /**
-         * Check for changed properties and inject angular properties from scope if possible
+         * Extend the LitElement `createProperty` to override ngProp's type into String
+         */
+        static createProperty(name, options) {
+            if (this.ngProps[name]) {
+                options = options || {};
+                options.type = String;
+            }
+            super.createProperty(name, options);
+        }
+
+
+        /**
+         * Extend the LitElement `update` to check for changed properties and inject angular properties from scope if possible
          */
         update(changedProps) {
             if (this.__shouldUpdateNgProps(changedProps)) {
+                this.__updateWithoutNgScopeSync(changedProps);
                 (async () => {
                     const ngScope = await this.__getNgScope();
-                    this.__updateWithNgScope(ngScope, changedProps);
+                    this.__updateWithNgScopeAsync(ngScope, changedProps);
                 })();
-
             } else {
                 super.update(changedProps);
             }
         }
 
-
         /**
-         * Internal Methods
+         *
+         * INTERNAL METHODS
+         *
          */
 
 
@@ -55,7 +52,7 @@ export const NgLit = baseElement => {
          */
 
         __isNgProp(propName) {
-            return this.constructor._ngProperties && this.constructor._ngProperties.hasOwnProperty(propName);
+            return this.constructor.ngProps[propName];
         }
 
         /**
@@ -64,7 +61,7 @@ export const NgLit = baseElement => {
          * @private
          */
         __shouldUpdateNgProps(changedProps) {
-            if (!this.constructor._ngProperties) {
+            if (!this.constructor.ngProps) {
                 return false;
             }
             for (const changedPropKey of changedProps.keys()) {
@@ -113,19 +110,49 @@ export const NgLit = baseElement => {
             });
         }
 
+
+        /**
+         * Commit an update before we have the scope
+         * @param ngScope
+         * @param changedProps
+         * @private
+         */
+        __updateWithoutNgScopeSync(changedProps) {
+            for (const [ngPropName, ngPropOptions] of Object.entries(this.constructor.ngProps)) {
+                const ngLitValue = changedProps.get(ngPropName);
+                if ((!ngLitValue || typeof ngLitValue === 'string') && ngPropOptions.default) {
+                    // apply default if any
+                    this[ngPropName] = ngPropOptions.default;
+                }
+            }
+            super.update(changedProps);
+        }
+
+
         /**
          * Commit an update with the scope and the changedProp
          * @param ngScope
          * @param changedProps
          * @private
          */
-        __updateWithNgScope(ngScope, changedProps) {
-            for (const [ngPropName, ngPropOptions] of Object.entries(this.constructor._ngProperties)) {
+        __updateWithNgScopeAsync(ngScope, changedProps) {
+            for (const [ngPropName, ngPropOptions] of Object.entries(this.constructor.ngProps)) {
                 const pathOnScope = this.getAttribute(ngPropName);
                 const ngValueOnScope = get(ngScope, pathOnScope);
                 if (!ngValueOnScope || typeof ngValueOnScope === 'string') {
-                    this[ngPropName] = null;
-                    changedProps.delete(ngPropName);
+                    // apply default if any
+                    const ngLitValue = changedProps.get(ngPropName);
+                    if (!ngLitValue || typeof ngLitValue === 'string') {
+                        // apply default if any
+                        if (ngPropOptions.default) {
+                            this[ngPropName] = ngPropOptions.default;
+                            changedProps.set(ngPropName, ngPropOptions.default);
+                        } else {
+                        // else delete it
+                            this[ngPropName] = null;
+                            changedProps.delete(ngPropName);
+                        }
+                    }
                 } else {
                     watchIfNeeded(ngPropOptions, this, ngScope, ngValueOnScope);
                     this[ngPropName] = ngValueOnScope;

@@ -5,7 +5,7 @@ import { init, COMMANDS } from '../utils';
 const { GET_NG_LIT_ELM } = COMMANDS;
 
 let nightmare = null;
-describe('no angular', async function () {
+describe('multiple properties with default values', async function () {
 
   this.timeout('60s');
   beforeEach(async () => {
@@ -13,9 +13,9 @@ describe('no angular', async function () {
     await init(nightmare, __dirname);
   });
 
-  it('should validate ng-lit draw without angular', async () => {
+  it('should validate ng-lit draw the items and user name with default values', async () => {
     const items = await nightmare.evaluate(...GET_NG_LIT_ELM).end();
-    deepStrictEqual(items,  'items in ng-lit: [] and name: John');
+    deepStrictEqual(items, 'user name and items in ng-lit: Default First Name Default Last Name ["dog","laptop","beer"]');
   });
 
 });
