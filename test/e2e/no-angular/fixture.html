@@ -6,8 +6,14 @@
   class NgLitItems extends NgLit(LitElement) {
     static get properties() {
       return {
-        items: { fromNg: true },
+        items: { type: Array },
         name: { type: String }
+      };
+    }
+
+    static get ngProps() {
+      return {
+        items: { default: [] }
       };
     }
 

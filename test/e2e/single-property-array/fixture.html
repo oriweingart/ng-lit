@@ -11,6 +11,12 @@
       };
     }
 
+    static get ngProps() {
+      return {
+        items: { default: [] }
+      }
+    }
+
     render() {
       const {
         items

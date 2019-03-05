@@ -7,9 +7,16 @@
   class NgLitUserWithItems extends NgLit(LitElement) {
     static get properties() {
       return {
-        user: { fromNg: true }
+        user: { type: Object }
       };
     }
+
+    static get ngProps() {
+      return {
+        user: {  }
+      }
+    }
+
 
     render() {
       const {

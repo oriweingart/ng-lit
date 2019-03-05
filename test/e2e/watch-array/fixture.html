@@ -7,13 +7,19 @@
   class NgLitWatchItems extends NgLit(LitElement) {
     static get properties() {
       return {
-        items: { fromNg: true, watch: true }
+        items: { type: Array }
       };
+    }
+
+    static get ngProps() {
+      return {
+        items: { watch: true, default: [] }
+      }
     }
 
     remove(index) {
       const {
-        items = []
+        items
       } = this;
       items.splice(index, 1);
     }

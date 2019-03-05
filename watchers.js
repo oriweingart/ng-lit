@@ -25,6 +25,8 @@ export const isNotOriginalObjectKey = value => !isOriginalObjectKey(value);
  * @param obj
  * @param litElm
  */
+
+// Check reflect API
 export const objectWatcherMixing = (obj, litElm, ngScope) => {
   obj.__litElms__ = obj.__litElms__ || [];
   obj.__litElms__.push(litElm);
@@ -53,6 +55,7 @@ export const objectWatcherMixing = (obj, litElm, ngScope) => {
  * @param arr
  * @param elm
  */
+// check for proxies to array
 export const ARRAY_MUTATIONS = ['fill', 'pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'];
 
 export const arrayWatcherMixing = (arr, litElm, ngScope) => {
