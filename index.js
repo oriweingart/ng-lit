@@ -1,5 +1,5 @@
 /* eslint-disable no-prototype-builtins,no-restricted-syntax,no-param-reassign */
-import { get } from "lodash-es";
+import { get, cloneDeep } from "lodash-es";
 import { watchIfNeeded } from "./watchers";
 
 const SECOND = 1000;
@@ -122,7 +122,7 @@ export const NgLit = baseElement => {
                 const ngLitValue = changedProps.get(ngPropName);
                 if ((!ngLitValue || typeof ngLitValue === 'string') && ngPropOptions.default) {
                     // apply default if any
-                    this[ngPropName] = ngPropOptions.default;
+                    this[ngPropName] = cloneDeep(ngPropOptions.default);
                 }
             }
             super.update(changedProps);
@@ -145,8 +145,8 @@ export const NgLit = baseElement => {
                     if (!ngLitValue || typeof ngLitValue === 'string') {
                         // apply default if any
                         if (ngPropOptions.default) {
-                            this[ngPropName] = ngPropOptions.default;
-                            changedProps.set(ngPropName, ngPropOptions.default);
+                            this[ngPropName] = cloneDeep(ngPropOptions.default);
+                            changedProps.set(ngPropName, this[ngPropName]);
                         } else {
                         // else delete it
                             this[ngPropName] = null;
