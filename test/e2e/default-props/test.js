@@ -2,7 +2,7 @@ import Nightmare from "nightmare";
 import { deepStrictEqual } from 'assert';
 import { init, COMMANDS } from '../utils';
 
-const { GET_NG_ELM, GET_NG_LIT_ELM } = COMMANDS;
+const { GET_NG_LIT_ELM } = COMMANDS;
 
 let nightmare = null;
 describe('multiple properties with default values', async function () {
