@@ -94,7 +94,7 @@ use the `default` option to pass a default values in case of angular scope or th
 ```
 
 #### Watch
-use the `watch: true` option to make litElement re-render on changes made on the object/array on angular's code.
+use the `watch: true` option to make litElement re-render on changes made to the object/array on angular's code.
 
 The following example will re-render the litElement when `$scope.addBook()` is called:
 
