@@ -34,4 +34,4 @@ export const init = async (nightmare, testFolder) => {
   return nightmare;
 };
 
-export const removeWhiteSpaces = (s = '') => s.replace(/ /g,'');
+export const removeWhiteSpaces = (s = '') => s.replace(/ /g,'')
