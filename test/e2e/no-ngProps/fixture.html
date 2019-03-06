@@ -1,0 +1,42 @@
+<script src="../../../node_modules/angular/angular.js"></script>
+<script src="../../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+<script src="../../../node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script type="module">
+  import { LitElement, html } from "lit-element";
+  import { NgLit } from "../../../index";
+
+  class NgLitAge extends NgLit(LitElement) {
+    static get properties() {
+      return {
+        age: { type: Number }
+      };
+    }
+
+    render() {
+      const {
+        age
+      } = this;
+
+      return html`<div>user age is ${age}</div>`;
+    }
+  }
+  customElements.define('ng-lit-user-with-items', NgLitAge);
+</script>
+<div ng-app="myApp" ng-controller="myCtrl">
+    <ng-lit-user-with-items
+            id="ng-lit-element"
+            age="15">
+    </ng-lit-user-with-items>
+</div>
+<script>
+  angular.module('myApp', [])
+    .controller('myCtrl', $scope => {
+      $scope.ngUser = {
+        firstName: "John",
+        lastName: "Doe",
+        items: ["dog", "laptop", "beer"]
+      };
+    })
+</script>
+
+

@@ -14,7 +14,7 @@ export const NgLit = baseElement => {
          * Extend the LitElement `createProperty` to override ngProp's type into String
          */
         static createProperty(name, options) {
-            if (this.ngProps[name]) {
+            if (this.ngProps && this.ngProps[name]) {
                 options = options || {};
                 options.type = String;
             }
@@ -52,7 +52,7 @@ export const NgLit = baseElement => {
          */
 
         __isNgProp(propName) {
-            return this.constructor.ngProps[propName];
+            return this.constructor.ngProps && this.constructor.ngProps[propName];
         }
 
         /**
