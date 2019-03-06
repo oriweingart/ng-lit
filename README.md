@@ -24,10 +24,11 @@ import { NgLit } from "ng-lit";
 export class NgLitUser extends NgLit(LitElement) {
   static get properties() {
     return {
+      age: { type: Number },
       user: { type: Object }
     };
   }
-  // flag ng-lit the angular props
+  // declare the angular props
   static get ngProps() {
     return {
       user: { default: {} }
@@ -35,10 +36,11 @@ export class NgLitUser extends NgLit(LitElement) {
   }
   render() {
     const {
+      age,
       user
     } = this;
 
-    return html`<h2>First Name: ${user.firstName} Last Name: ${user.lastName}</h2>`;
+    return html`<h2>First Name: ${user.firstName} Last Name: ${user.lastName} Age: ${age}</h2>`;
   }
 }
 customElements.define('ng-lit-user', NgLitUser);
@@ -48,7 +50,10 @@ customElements.define('ng-lit-user', NgLitUser);
 ```html
 <div ng-app="myApp" 
      ng-controller="myCtrl">
-    <ng-lit-user user="ngUser"></nglit-user>
+    <ng-lit-user 
+       user="ngUser" 
+       age="15">
+    </nglit-user>
 </div>
 <script>
   angular.module('myApp', [])
