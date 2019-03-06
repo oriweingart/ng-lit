@@ -21,7 +21,7 @@ npm i -S ng-lit
 import { LitElement, html } from "lit-element";
 import { NgLit } from "ng-lit";
 
-export class NgLitUser extends NgLit(LitElement) {
+class NgLitUser extends NgLit(LitElement) {
   static get properties() {
     return {
       age: { type: Number },
@@ -64,9 +64,9 @@ customElements.define('ng-lit-user', NgLitUser);
 
 ## Properties
 
-Props that need to be extracted from angular need to be added to `ngProps` method
+Props that need to be extracted from angular should be to be added to `ngProps` method.
 
-The following example will fetch `books` list and `selectedBook` object from angular while, `userId` will be treated as normal litElement property.
+The following example will fetch `books` list and `selectedBook` object from angular while `userId` will be treated as normal litElement property:
 ```javascript
   static get properties() {
     return {
@@ -84,7 +84,7 @@ The following example will fetch `books` list and `selectedBook` object from ang
 ```
 
 #### Defaults
-use the `default` option to pass a default values in case of angular scope or the value not found (or `null`).
+use the `default` option to pass a default value in case of angular scope or the value were not found (or `null`).
 ```javascript
   static get ngProps() {
     return {
@@ -94,13 +94,13 @@ use the `default` option to pass a default values in case of angular scope or th
 ```
 
 #### Watch
-use the `watch: true` option to make litElement re-render on changes made to the object/array on angular's code.
+use the `watch: true` option to make litElement re-render on changes made to the property on angular's code.
 
 The following example will re-render the litElement when `$scope.addBook()` is called:
 
 ```javascript
 // lit component
-export class NgListBookList extends NgLit(LitElement) {
+class NgListBookList extends NgLit(LitElement) {
   static get properties() {
     return {
       books: { type: Array }
@@ -108,15 +108,15 @@ export class NgListBookList extends NgLit(LitElement) {
   }
   static get ngProps() {
     return {
-      books: { default: [] }
+      books: { default: [], watch: true }
     }
   }
   render() {
     const { books } = this;
-    return html`${books.map(({title, author}) =>html`<span>${title} by ${author}</span>`)}`;
+    return html`${books.map(({title, author}) =>html`<li>${title} by ${author}</li>`)}`;
   }
 }
-customElements.define('ng-lit-books', NgLitUser);
+customElements.define('ng-lit-books', NgListBookList);
 ```
 
 ```html
