@@ -1,28 +1,23 @@
-/* eslint-disable no-shadow */
-import Nightmare from "nightmare";
 import { deepStrictEqual } from 'assert';
-import { init, NG_LIT_ELM } from '../utils';
+import { init , NgNightmare } from '../utils';
 
 let nightmare = null;
 describe('ng-repeat directive', async function () {
 
   this.timeout('60s');
   beforeEach(async () => {
-    nightmare = new Nightmare();
+    nightmare = new NgNightmare();
     await init(nightmare, __dirname);
   });
 
   it('should validate ng-lit draw all items within ng-repeat loop', async () => {
-    let NG_LIT_ELM_WITH_ID = `${NG_LIT_ELM}-0`;
-    let userName = await nightmare.evaluate(NG_LIT_ELM_WITH_ID => document.querySelector(NG_LIT_ELM_WITH_ID).shadowRoot.children[0].innerText, NG_LIT_ELM_WITH_ID);
+    let userName = await nightmare.getNgLitElementWithId(0);
     deepStrictEqual(userName, "user name in ng-lit: Freddy krueger");
 
-    NG_LIT_ELM_WITH_ID = `${NG_LIT_ELM}-1`;
-    userName = await nightmare.evaluate(NG_LIT_ELM_WITH_ID => document.querySelector(NG_LIT_ELM_WITH_ID).shadowRoot.children[0].innerText, NG_LIT_ELM_WITH_ID);
+    userName = await nightmare.getNgLitElementWithId(1);
     deepStrictEqual(userName, "user name in ng-lit: Jason Voorhees");
 
-    NG_LIT_ELM_WITH_ID = `${NG_LIT_ELM}-2`;
-    userName = await nightmare.evaluate(NG_LIT_ELM_WITH_ID => document.querySelector(NG_LIT_ELM_WITH_ID).shadowRoot.children[0].innerText, NG_LIT_ELM_WITH_ID).end();
+    userName = await nightmare.getNgLitElementWithId(2).end();
     deepStrictEqual(userName, "user name in ng-lit: Michael Myers");
   });
 
