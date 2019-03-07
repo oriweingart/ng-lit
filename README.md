@@ -16,6 +16,8 @@ npm i -S ng-lit
 
 ## Simple usage
 
+[Demo on jsfiddle](https://jsfiddle.net/ozbjm9wv/5/)
+
 ```javascript
 // lit component
 import { LitElement, html } from "lit-element";
