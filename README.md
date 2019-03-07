@@ -51,7 +51,7 @@ customElements.define('ng-lit-user', NgLitUser);
     <ng-lit-user 
        user="ngUser" 
        age="15">
-    </nglit-user>
+    </ng-lit-user>
 </div>
 <script>
   angular.module('myApp', [])
