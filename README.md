@@ -127,7 +127,7 @@ customElements.define('ng-lit-books', NgListBookList);
      ng-controller="myCtrl">
     <ng-lit-books 
        books="myBooks">
-    </nglit-user>
+    </ng-lit-books>
     <button 
         ng-click="addBook({title: 'Anna Karenina', author: 'Leo Tolstoy'})">
         Anna Karenina
