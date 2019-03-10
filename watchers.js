@@ -34,7 +34,11 @@ export const objectWatcherMixing = (obj, litElm, ngScope) => {
     prop => {
       const value = obj[prop];
       delete obj[prop];
-      obj[`__ngWatch${prop}`] = value;
+      Object.defineProperty(obj, `__ngWatch${prop}`, {
+        value,
+        writable: true,
+        enumerable: false
+      });
       Object.defineProperty(obj, prop, {
         get () {
           return obj[`__ngWatch${prop}`];
