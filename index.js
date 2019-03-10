@@ -146,8 +146,8 @@ export const NgLit = baseElement => {
                 // Try to extract the actual value on angular's scope
                 const pathOnScope = this.getAttribute(ngPropName);
                 // First Try: using angular.$parse
-                const $parse = ngInjector.get('$parse')
-                const getter = $parse(pathOnScope)
+                const $parse = ngInjector.get('$parse');
+                const getter = $parse(pathOnScope);
                 let ngValueOnScope = getter(ngScope);
                 if (typeof ngValueOnScope === 'string') {
                     // Second Try: lodash get
