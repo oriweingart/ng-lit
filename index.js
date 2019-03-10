@@ -29,8 +29,8 @@ export const NgLit = baseElement => {
             if (this.__shouldUpdateNgProps(changedProps)) {
                 this.__updateWithoutNgScopeSync(changedProps);
                 (async () => {
-                    const ngScope = await this.__getNgScope();
-                    this.__updateWithNgScopeAsync(ngScope, changedProps);
+                    const { ngScope, ngInjector } = await this.__getNgScope();
+                    this.__updateWithNgScopeAsync(ngScope, ngInjector, changedProps);
                 })();
             } else {
                 super.update(changedProps);
@@ -80,18 +80,24 @@ export const NgLit = baseElement => {
         __getNgScope() {
             return new Promise((resolve) => {
                 const { angular } = window;
-                if (this.__ngScope) {
-                    resolve(this.__ngScope);
+                if (this.__ngScope && this.__ngInjector) {
+                    resolve({ ngScope: this.__ngScope, ngInjector: this.__ngInjector });
                 }
-                let ngScope = angular ? angular.element(this.parentElement).scope() : null;
-                if (ngScope) {
+                let ngElement = angular ? angular.element(this.parentElement) : null;
+                let ngScope = ngElement ? ngElement.scope() : null;
+                let ngInjector = ngElement ? ngElement.injector() : null;
+                if (ngScope && ngInjector) {
                     this.__ngScope = ngScope;
-                    resolve(this.__ngScope);
+                    this.__ngInjector = ngInjector;
+                    resolve({ ngScope: this.__ngScope, ngInjector: this.__ngInjector });
                 } else {
                     setTimeout(async () => {
-                        ngScope = angular ? angular.element(this.parentElement).scope() : null;
-                        if (ngScope) {
+                        ngElement = angular ? angular.element(this.parentElement) : null;
+                        ngScope = ngElement ? ngElement.scope() : null;
+                        ngInjector = ngElement ? ngElement.injector() : null;
+                        if (ngScope && ngInjector) {
                             this.__ngScope = ngScope;
+                            this.__ngInjector = ngInjector;
                             // Try to extract angular's $apply, otherwise use setTimeout
                             const $body = angular ? angular.element(
                               document.getElementsByTagName('ng-app')[0] ||
@@ -99,7 +105,7 @@ export const NgLit = baseElement => {
                             ) : null;
                             const nextDigest = get($body, 'scope().$root.$apply') || setTimeout;
                             nextDigest(() => {
-                                resolve(this.__ngScope);
+                                resolve({ ngScope: this.__ngScope, ngInjector: this.__ngInjector });
                             });
                         } else {
                             console.warn(`Angular scope want not found on ${this.constructor.name}`);
@@ -135,10 +141,18 @@ export const NgLit = baseElement => {
          * @param changedProps
          * @private
          */
-        __updateWithNgScopeAsync(ngScope, changedProps) {
+        __updateWithNgScopeAsync(ngScope, ngInjector, changedProps) {
             for (const [ngPropName, ngPropOptions] of Object.entries(this.constructor.ngProps)) {
+                // Try to extract the actual value on angular's scope
                 const pathOnScope = this.getAttribute(ngPropName);
-                const ngValueOnScope = get(ngScope, pathOnScope);
+                // First Try: using angular.$parse
+                const $parse = ngInjector.get('$parse')
+                const getter = $parse(pathOnScope)
+                let ngValueOnScope = getter(ngScope);
+                if (typeof ngValueOnScope === 'string') {
+                    // Second Try: lodash get
+                   ngValueOnScope = get(ngScope, ngValueOnScope);
+                }
                 if (!ngValueOnScope || typeof ngValueOnScope === 'string') {
                     // apply default if any
                     const ngLitValue = changedProps.get(ngPropName);
@@ -165,3 +179,12 @@ export const NgLit = baseElement => {
 };
 
 export default NgLit;
+
+export const onLitEvent = (eventName, $scope, callback) => {
+    const { body } = document;
+    body.addEventListener(eventName, e => {
+        $scope.$applyAsync(()=>{
+            callback(e);
+        });
+    });
+};
