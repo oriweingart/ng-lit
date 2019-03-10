@@ -30,7 +30,8 @@ export const NgLit = baseElement => {
                 this.__updateWithoutNgScopeSync(changedProps);
                 (async () => {
                     const { ngScope, ngInjector } = await this.__getNgScope();
-                    this.__updateWithNgScopeAsync(ngScope, ngInjector, changedProps);
+                    // eslint-disable-next-line no-unused-expressions
+                    ngScope && ngInjector && this.__updateWithNgScopeAsync(ngScope, ngInjector, changedProps);
                 })();
             } else {
                 super.update(changedProps);
@@ -108,8 +109,8 @@ export const NgLit = baseElement => {
                                 resolve({ ngScope: this.__ngScope, ngInjector: this.__ngInjector });
                             });
                         } else {
-                            console.warn(`Angular scope want not found on ${this.constructor.name}`);
-                            resolve();
+                            console.warn(`Angular scope was not found on ${this.constructor.name}`);
+                            resolve({});
                         }
                     }, SECOND * 0.1);
                 }
