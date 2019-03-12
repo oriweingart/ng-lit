@@ -170,6 +170,11 @@ export const NgLit = baseElement => {
                     }
                 } else {
                     watchIfNeeded(ngPropOptions, this, ngScope, ngValueOnScope);
+                    ngScope.$watch(pathOnScope, newValue=> {
+                      this[ngPropName] = newValue;
+                      changedProps.set(ngPropName, newValue);
+                      super.update(changedProps);
+                    });
                     this[ngPropName] = ngValueOnScope;
                     changedProps.set(ngPropName, ngValueOnScope);
                 }
