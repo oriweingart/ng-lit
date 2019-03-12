@@ -3,7 +3,7 @@ import assert from 'assert';
 import { describe } from "mocha";
 import { isObject } from "../../watchers";
 
-describe('isObect', () => {
+describe('isObject', () => {
 
   it('should return true for object', () => {
     assert(isObject({}) === true);
