@@ -13,7 +13,7 @@
 
     static get ngProps() {
       return {
-        user: { default: {}, watch: true }
+        user: { default: {} }
       }
     }
 
@@ -32,9 +32,8 @@
             id="ng-lit-element"
             user="ngUser">
     </ng-lit-user>
-    <input  id="ng-element-input"
-            type="text"
-            ng-model="ngUser.lastName">
+    <button  id="ng-element-button"
+             ng-click="randomName()">Make Random Name</button>
     <div id="ng-element"
          ng-if="ngUser">user name in angular: {{ngUser.firstName}} {{ngUser.lastName}}
     </div>
@@ -46,6 +45,17 @@
         firstName: "John",
         lastName: "Doe"
       };
+      let i = 0;
+      const getRandomName = () => {
+        i++;
+        return {
+          firstName: `John ${i}`,
+          lastName: `Doe ${i}`
+        }
+      }
+      $scope.randomName = () => {
+        $scope.ngUser = getRandomName();
+      }
     });
 </script>
 

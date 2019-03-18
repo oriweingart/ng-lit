@@ -10,12 +10,12 @@ describe('single array property', async function () {
     await init(nightmare, __dirname);
   });
 
-  it('should validate angular draw the items', async () => {
+  it('should validate angular render the items', async () => {
     const items = await nightmare.getNgElement().end();
     deepStrictEqual(items, 'items in angular: ["dog","laptop","beer"]');
   });
 
-  it('should validate ng-lit draw the items', async () => {
+  it('should validate ng-lit render the items', async () => {
     const items = await nightmare.getNgLitElement().end();
     deepStrictEqual(items,  'items in ng-lit: ["dog","laptop","beer"]');
   });

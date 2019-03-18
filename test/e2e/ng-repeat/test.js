@@ -10,7 +10,7 @@ describe('ng-repeat directive', async function () {
     await init(nightmare, __dirname);
   });
 
-  it('should validate ng-lit draw all items within ng-repeat loop', async () => {
+  it('should validate ng-lit render all items within ng-repeat loop', async () => {
     let userName = await nightmare.getNgLitElementWithId(0);
     deepStrictEqual(userName, "user name in ng-lit: Freddy krueger");
 

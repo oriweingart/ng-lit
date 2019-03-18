@@ -10,7 +10,7 @@ describe('no ngProps on element', async function () {
     await init(nightmare, __dirname);
   });
 
-  it('should validate ng-lit draw user age without any ngProps', async () => {
+  it('should validate ng-lit render user age without any ngProps', async () => {
     const items = await nightmare.getNgLitElement().end();
     deepStrictEqual(items, 'user age is 15');
   });
