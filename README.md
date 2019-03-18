@@ -5,16 +5,16 @@
 [![NPM version](https://badge.fury.io/js/ng-lit.svg)](https://travis-ci.com/oriweingart/ng-lit)
 
 
-Mixing class to pass angular objects and arrays from [AngularJS](https://github.com/angular/angular.js) application into [lit-element](https://github.com/Polymer/lit-element) without parsing them as json.
+🔌 Mixing class to pass angular objects and arrays from [AngularJS](https://github.com/angular/angular.js) application into [lit-element](https://github.com/Polymer/lit-element) without parsing them as json.
 
-## Install
+## 👩‍🚀 Installing
 
 ```bash
 npm i -S ng-lit
 ```
 
 
-## Simple usage
+## 👨‍💻 Usage
 
 [Demo on jsfiddle](https://jsfiddle.net/3jd61yh7/){:target="_blank" rel="noopener"}
 
@@ -64,7 +64,7 @@ customElements.define('ng-lit-user', NgLitUser);
 </script>
 ```
 
-## Motivation
+## 👓 Motivation
 
 `ng-lit` allows you to boots an old [AngularJS](https://github.com/angular/angular.js) application by using [litElement](https://github.com/Polymer/lit-element) components without refactoring the entire app.
 
@@ -93,7 +93,7 @@ Using `ng-lit` you can build a new implementation for `<todo-item>` based on [li
 
 You can stop here or continue with upgrading `<todo-list>` and finally new app entry.
 
-## Documentation
+## 📄 Documentation
 
 ### Properties
 
