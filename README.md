@@ -16,7 +16,7 @@ npm i -S ng-lit
 
 ## 👨‍💻 Usage
 
-[Demo on jsfiddle](https://jsfiddle.net/3jd61yh7/)
+**[Demo on jsfiddle](https://jsfiddle.net/3jd61yh7/)**
 
 ```javascript
 // lit component
@@ -64,7 +64,7 @@ customElements.define('ng-lit-user', NgLitUser);
 </script>
 ```
 
-## 👓 Motivation
+## 🧙‍♀️ Motivation
 
 `ng-lit` allows you to boots an old [AngularJS](https://github.com/angular/angular.js) application by using [litElement](https://github.com/Polymer/lit-element) components without refactoring the entire app.
 
