@@ -93,7 +93,7 @@ Using `ng-lit` you can build a new implementation for `<todo-item>` based on [li
 
 You can stop here or continue with upgrading `<todo-list>` and finally new app entry.
 
-## 🚴 Documentation
+## 👨‍🏫 Documentation
 
 ### Properties
 
