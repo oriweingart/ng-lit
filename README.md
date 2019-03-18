@@ -71,21 +71,26 @@ customElements.define('ng-lit-user', NgLitUser);
 This way you can incrementally upgrade the application with new [litElement](https://github.com/Polymer/lit-element) components live side by side with old [AngularJS](https://github.com/angular/angular.js) code, until you can fully drop [AngularJS](https://github.com/angular/angular.js) from the app.
 
 ##### Conceptual example
-Consider a `todo-app` fully written with [AngularJS](https://github.com/angular/angular.js) with 3 components:
+Consider a `todo-app` fully written with [AngularJS](https://github.com/angular/angular.js) composed of 3 components:
 ```html
 <todo-main-app> 
 ```
- - Main app entry that load a list of `todo` objects to ths `$scope`
+ - Main app entry that load a list of `todo` objects to the `$scope`.
 ```html
 <todo-list todos="vm.myTodoList"> 
 ```    
- - Component that get a list of `todo` objects and and draw `<todo-item>` for each item in the list 
+ - Component that get a list of `todo` objects and and draw `<todo-item>` for each item in the list.
 ```html
 <todo-item todo="vm.singleTodo"> 
 ```    
- - Component that get a single `todo` object and render it's state (text and isDone checkbox)
+ - Component that get a single `todo` object and render it's state (text and isDone checkbox).
 
-With `ng-lit` you can build a new implementation for `<todo-item>` based on [litElement](https://github.com/Polymer/lit-element) with same interface (given todo object as prop) as your first incremental change.
+Using `ng-lit` you can build a new implementation for `<todo-item>` based on [litElement](https://github.com/Polymer/lit-element) with same interface (given todo object as prop) as your first incremental change:
+```html
+<lit-todo-item todo="vm.singleTodo"> 
+```    
+ - Component that get a single `todo` object and render it's state (text and isDone checkbox).
+
 You can stop here or continue with upgrading `<todo-list>` and finally new app entry.
 
 ## Documentation
