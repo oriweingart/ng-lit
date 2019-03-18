@@ -77,11 +77,11 @@ Consider a `todo-app` fully written with [AngularJS](https://github.com/angular/
 ```
  - Main app entry that load a list of `todo` objects to ths `$scope`
 ```html
-<todo-list> 
+<todo-list todos="vm.myTodoList"> 
 ```    
  - Component that get a list of `todo` objects and and draw `<todo-item>` for each item in the list 
 ```html
-<todo-item> 
+<todo-item todo="vm.singleTodo"> 
 ```    
  - Component that get a single `todo` object and render it's state (text and isDone checkbox)
 
