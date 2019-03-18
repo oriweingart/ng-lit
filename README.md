@@ -16,7 +16,7 @@ npm i -S ng-lit
 
 ## Simple usage
 
-[Demo on jsfiddle](https://jsfiddle.net/ozbjm9wv/5/)
+[Demo on jsfiddle](https://jsfiddle.net/3jd61yh7/){:target="_blank" rel="noopener"}
 
 ```javascript
 // lit component
