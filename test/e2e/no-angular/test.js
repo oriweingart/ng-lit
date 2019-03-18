@@ -10,7 +10,7 @@ describe('no angular', async function () {
     await init(nightmare, __dirname);
   });
 
-  it('should validate ng-lit draw without angular', async () => {
+  it('should validate ng-lit render without angular', async () => {
     const items = await nightmare.getNgLitElement().end();
     deepStrictEqual(items,  'items in ng-lit: [] and name: John');
   });

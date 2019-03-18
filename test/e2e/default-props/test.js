@@ -10,7 +10,7 @@ describe('multiple properties with default values', async function () {
     await init(nightmare, __dirname);
   });
 
-  it('should validate ng-lit draw the items and user name with default values', async () => {
+  it('should validate ng-lit render the items and user name with default values', async () => {
     const items = await nightmare.getNgLitElement().end();
     deepStrictEqual(items, 'user name and items in ng-lit: Default First Name Default Last Name ["dog","laptop","beer"]');
   });

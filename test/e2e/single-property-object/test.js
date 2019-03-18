@@ -10,12 +10,12 @@ describe('single object property', async function() {
     await init(nightmare, __dirname);
   });
 
-  it('should validate angular draw the user name', async () => {
+  it('should validate angular render the user name', async () => {
     const userName = await nightmare.getNgElement().end();
     deepStrictEqual(userName, "user name in angular: John Doe");
   });
 
-  it('should validate ng-lit draw the user name', async () => {
+  it('should validate ng-lit render the user name', async () => {
     const userName = await nightmare.getNgLitElement().end();
     deepStrictEqual(userName, "user name in ng-lit: John Doe");
   });
