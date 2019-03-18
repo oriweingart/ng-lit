@@ -92,7 +92,7 @@ export const shouldWatchNgProp = ngPropOptions => ngPropOptions.watch && !ngProp
  * @param litElm
  * @param ngScope
  */
-export const watchIfNeeded = (ngPropOptions, litElm, ngScope, ngValue) => {
+export const watchLitIfNeeded = (ngPropOptions, litElm, ngScope, ngValue) => {
   if (shouldWatchNgProp(ngPropOptions)) {
     // Array
     if (isArray(ngValue)) {

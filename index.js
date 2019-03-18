@@ -1,6 +1,6 @@
 /* eslint-disable no-prototype-builtins,no-restricted-syntax,no-param-reassign */
 import { get, cloneDeep } from "lodash-es";
-import { watchIfNeeded } from "./watchers";
+import { watchLitIfNeeded } from "./watchers";
 
 const SECOND = 1000;
 
@@ -169,7 +169,9 @@ export const NgLit = baseElement => {
                         }
                     }
                 } else {
-                    watchIfNeeded(ngPropOptions, this, ngScope, ngValueOnScope);
+                    // watch for array and objects change on lit
+                    watchLitIfNeeded(ngPropOptions, this, ngScope, ngValueOnScope);
+                    // watch for reference change on scope
                     ngScope.$watch(pathOnScope, newValue=> {
                       this[ngPropName] = newValue;
                       changedProps.set(ngPropName, newValue);
@@ -185,12 +187,3 @@ export const NgLit = baseElement => {
 };
 
 export default NgLit;
-
-export const onLitEvent = (eventName, $scope, callback) => {
-    const { body } = document;
-    body.addEventListener(eventName, e => {
-        $scope.$applyAsync(()=>{
-            callback(e);
-        });
-    });
-};
