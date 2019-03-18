@@ -1,11 +1,11 @@
 ### :warning: Under development :hammer_and_wrench:
 
-# Pass objects and arrays from AngularJS scope to LitElement
+# 🔌 Boots up your old [AngularJS](https://github.com/angular/angular.js) app with fancy new [litElement](https://github.com/Polymer/lit-element) components.
 [![CircleCI](https://circleci.com/gh/oriweingart/ng-lit.svg?style=svg)](https://circleci.com/gh/oriweingart/ng-lit)
 [![NPM version](https://badge.fury.io/js/ng-lit.svg)](https://travis-ci.com/oriweingart/ng-lit)
 
 
-🔌 Mixing class to pass angular objects and arrays from [AngularJS](https://github.com/angular/angular.js) application into [lit-element](https://github.com/Polymer/lit-element) without parsing them as json.
+Mixing class to pass angular objects and arrays from [AngularJS](https://github.com/angular/angular.js) application into [lit-element](https://github.com/Polymer/lit-element) without parsing them as json.
 
 ## 👩‍🚀 Installing
 
@@ -16,7 +16,7 @@ npm i -S ng-lit
 
 ## 👨‍💻 Usage
 
-[Demo on jsfiddle](https://jsfiddle.net/3jd61yh7/){:target="_blank" rel="noopener"}
+[Demo on jsfiddle](https://jsfiddle.net/3jd61yh7/)
 
 ```javascript
 // lit component
@@ -93,7 +93,7 @@ Using `ng-lit` you can build a new implementation for `<todo-item>` based on [li
 
 You can stop here or continue with upgrading `<todo-list>` and finally new app entry.
 
-## 📄 Documentation
+## 🚴 Documentation
 
 ### Properties
 
