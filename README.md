@@ -174,3 +174,38 @@ customElements.define('ng-lit-books', NgListBookList);
   });
 </script>
 ```
+
+## 👨🏽‍💻  Develop
+
+```bash
+git clone git@github.com:oriweingart/ng-lit.git
+cd ng-lit
+npm i
+
+```
+##### Run local serve mode
+
+```bash
+npm run dev
+```
+will open http://127.0.0.1:8081/test/e2e/index.html with all test cases on browser
+
+
+##### Run tests
+end-to-end tests:
+```bash
+npm run test:e2e
+```
+unit tests
+```bash
+npm run test:unit
+```
+both
+```bash
+npm run test
+```
+
+##### Lint
+```bash
+npm run lint
+```
