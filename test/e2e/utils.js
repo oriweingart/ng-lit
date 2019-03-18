@@ -8,7 +8,7 @@ export const CONFIG = {
   WAIT: 3000
 };
 
-const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+const sleepIt = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 // Register common actions
 Nightmare.action('getNgElement', function(done) {
@@ -26,11 +26,11 @@ Nightmare.action('removeItemInNgLit', function(index, done) {
 
 export const NgNightmare = Nightmare;
 
-export const init = async (nightmare, testFolder) => {
+export const init = async (nightmare, testFolder, { sleep, wait } = {}) => {
   const testName = testFolder.split("/")[testFolder.split("/").length-1];
   const url = `${CONFIG.URL}/${CONFIG.PATH}/${testName}/${CONFIG.FIXTURE}`;
-  await nightmare.goto(url).wait(CONFIG.WAIT);
-  await sleep(5000);
+  await nightmare.goto(url).wait(wait || CONFIG.WAIT);
+  await sleepIt(sleep || 5000);
   return nightmare;
 };
 
