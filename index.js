@@ -65,6 +65,9 @@ export const NgLit = baseElement => {
             if (!this.constructor.ngProps) {
                 return false;
             }
+            if (!this.parentElement) {
+                return false;
+            }
             for (const changedPropKey of changedProps.keys()) {
                 if (this.__isNgProp(changedPropKey)) {
                     return true;
