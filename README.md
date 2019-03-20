@@ -1,6 +1,6 @@
 ### :warning: Under development :hammer_and_wrench:
 
-# 🔌 Boots up your old [AngularJS](https://github.com/angular/angular.js) app with fancy new [litElement](https://github.com/Polymer/lit-element) components.
+# 🔌 Boost up your old [AngularJS](https://github.com/angular/angular.js) app with fancy new [litElement](https://github.com/Polymer/lit-element) components.
 [![CircleCI](https://circleci.com/gh/oriweingart/ng-lit.svg?style=svg)](https://circleci.com/gh/oriweingart/ng-lit)
 [![NPM version](https://badge.fury.io/js/ng-lit.svg)](https://travis-ci.com/oriweingart/ng-lit)
 
@@ -66,7 +66,7 @@ customElements.define('ng-lit-user', NgLitUser);
 
 ## 🧙‍♀️ Motivation
 
-`ng-lit` allows you to boots an old [AngularJS](https://github.com/angular/angular.js) application by using [litElement](https://github.com/Polymer/lit-element) components without refactoring the entire app.
+`ng-lit` allows you to Boost up an old [AngularJS](https://github.com/angular/angular.js) application by using [litElement](https://github.com/Polymer/lit-element) components without refactoring the entire app.
 
 This way you can incrementally upgrade the application with new [litElement](https://github.com/Polymer/lit-element) components live side by side with old [AngularJS](https://github.com/angular/angular.js) code, until you can fully drop [AngularJS](https://github.com/angular/angular.js) from the app.
 
