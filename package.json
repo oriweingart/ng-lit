@@ -47,5 +47,8 @@
   },
   "dependencies": {
     "lodash-es": "latest"
+  },
+  "babel": {
+    "presets": ["@babel/env"]
   }
 }
