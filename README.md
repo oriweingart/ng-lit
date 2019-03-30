@@ -183,6 +183,13 @@ cd ng-lit
 npm i
 
 ```
+##### Run demo
+
+```bash
+npm run demo
+```
+will open browser with the demos section
+
 ##### Run local serve mode
 
 ```bash
