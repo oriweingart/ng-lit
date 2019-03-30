@@ -1,6 +1,9 @@
 import { deepStrictEqual } from 'assert';
 import { init , NgNightmare } from '../utils';
 
+/**
+ * Render elements without ngProps
+ */
 let nightmare = null;
 describe('no ngProps on element', async function () {
 

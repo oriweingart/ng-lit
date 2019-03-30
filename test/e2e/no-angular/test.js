@@ -1,6 +1,9 @@
 import { deepStrictEqual } from 'assert';
 import { init , NgNightmare } from '../utils';
 
+/**
+ * Render elements on a page without angular
+ */
 let nightmare = null;
 describe('no angular', async function () {
 

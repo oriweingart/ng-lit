@@ -1,6 +1,9 @@
 import { deepStrictEqual } from 'assert';
 import { init , NgNightmare } from '../utils';
 
+/**
+ * Render elements inside ng-repeat
+ */
 let nightmare = null;
 describe('ng-repeat directive', async function () {
 

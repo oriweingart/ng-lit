@@ -1,6 +1,9 @@
 import { deepStrictEqual } from 'assert';
 import { init, NgNightmare, removeWhiteSpaces } from '../utils';
 
+/**
+ * Render elements with array watched items on the scope
+ */
 let nightmare = null;
 describe('watch array property', async function () {
 
