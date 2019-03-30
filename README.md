@@ -132,14 +132,6 @@ customElements.define('ng-lit-book', NgListBookList);
 
 ```html
 <!-- angular -->
-<div ng-app="myApp" 
-     ng-controller="myCtrl">
-    <ng-lit-books 
-       books="myBooks">
-    </ng-lit-books>
-    <button 
-        ng-click="addBook({title: 'Anna Karenina', author: 'Leo Tolstoy'})">
-        Anna Karenina
 <div ng-app="myApp" ng-controller="myCtrl">
     <ng-lit-book book="myBook"></ng-lit-book>
     <button ng-click="selectBook({title: 'Anna Karenina', author: 'Leo Tolstoy'})">
