@@ -1,11 +1,10 @@
 ### :warning: Under development :hammer_and_wrench:
 
-# 🔌 Boost up your old [AngularJS](https://github.com/angular/angular.js) app with fancy new [litElement](https://github.com/Polymer/lit-element) components.
+# 🔌 Boost Your Old [AngularJS](https://github.com/angular/angular.js) App [LitElement](https://github.com/Polymer/lit-element) Components.
 [![CircleCI](https://circleci.com/gh/oriweingart/ng-lit.svg?style=svg)](https://circleci.com/gh/oriweingart/ng-lit)
 [![NPM version](https://badge.fury.io/js/ng-lit.svg)](https://travis-ci.com/oriweingart/ng-lit)
 
-
-Mixing class to pass angular objects and arrays from [AngularJS](https://github.com/angular/angular.js) application into [lit-element](https://github.com/Polymer/lit-element) without parsing them as json.
+Are you stuck maintaining a crufy old angularjs 1.x app? Wish you could be writing straightforward component-based views but can't afford to move the whole thing to the Fancy New Framework™️? With LitElement and some helpers from ng-lit, you can **incrementally update** your old app piece by piece.
 
 ## 👩‍🚀 Installing
 
@@ -13,13 +12,14 @@ Mixing class to pass angular objects and arrays from [AngularJS](https://github.
 npm i -S ng-lit
 ```
 
+`ng-lit` lets you pass objects and arrays from your [AngularJS](https://github.com/angular/angular.js) application into your [lit-element](https://github.com/Polymer/lit-element) views without parsing or watching them yourself.
 
 ## 👨‍💻 Usage
 
 **[Demo on jsfiddle](https://jsfiddle.net/3jd61yh7/)**
 
+### Your New `lit-element` View
 ```javascript
-// lit component
 import { LitElement, html } from "lit-element";
 import { NgLit } from "ng-lit";
 
@@ -30,28 +30,33 @@ class NgLitUser extends NgLit(LitElement) {
       user: { type: Object }
     };
   }
+
   // declare the angular props
   static get ngProps() {
     return {
       user: { default: {} }
     }
   }
+
   render() {
     const { age, user } = this;
-    return html`<span>${user.firstName} ${user.lastName} is ${age} years old</span>`;
+    return html`
+      <span>${user.firstName} ${user.lastName} is ${age} years old</span>
+    `;
   }
 }
 customElements.define('ng-lit-user', NgLitUser);
 ```
 
+### Your AngularJS App:
 ```html
 <!-- angular -->
-<div ng-app="myApp" 
+<div ng-app="myApp"
      ng-controller="myCtrl">
-    <ng-lit-user 
-       user="ngUser" 
+  <ng-lit-user
+       user="ngUser"
        age="15">
-    </ng-lit-user>
+  </ng-lit-user>
 </div>
 <script>
   angular.module('myApp', [])
@@ -66,87 +71,99 @@ customElements.define('ng-lit-user', NgLitUser);
 
 ## 🧙‍♀️ Motivation
 
-`ng-lit` allows you to Boost up an old [AngularJS](https://github.com/angular/angular.js) application by using [litElement](https://github.com/Polymer/lit-element) components without refactoring the entire app.
+`ng-lit` allows you to bring your old [AngularJS](https://github.com/angular/angular.js) application up to date piece-by-piece, using `lit-element` components to refactor from the bottom-up.
 
-This way you can incrementally upgrade the application with new [litElement](https://github.com/Polymer/lit-element) components live side by side with old [AngularJS](https://github.com/angular/angular.js) code, until you can fully drop [AngularJS](https://github.com/angular/angular.js) from the app.
+[Web components work out-of-the-box in angular templates](https://custom-elements-everywhere.com/#angularjs), but due to some quirks in angular's data binding system, it can sometimes be awkward passing your app's data back down into your web components. `ng-lit` helpers make it easier for your new `lit-element` components to live side by side with old AngularJS code, until you can fully drop AngularJS from the app.
 
-##### Conceptual example
-Consider a `todo-app` fully written with [AngularJS](https://github.com/angular/angular.js) composed of 3 components:
+### Conceptual example
+Consider an angularjs `todo-app` composed of three components:
+
+- Main app entrypoint that loads a list of `todo` objects on to the `$scope`.
+    ```html
+    <todo-main-app>
+    ```
+- Component that get a list of `todo` objects and and renders `<todo-item>`s for each one.
+    ```html
+    <todo-list todos="vm.myTodoList">
+    ```    
+- Component that get a single `todo` object and render it's text and `isDone` state.
+    ```html
+    <todo-item todo="vm.singleTodo">
+    ```    
+
+For your first incremental change, you can use `ng-lit` to build a new implementation for `<todo-item>` based on `lit-element` with same interface as the old angularjs directive.
 ```html
-<todo-main-app> 
-```
- - Main app entry that load a list of `todo` objects to the `$scope`.
-```html
-<todo-list todos="vm.myTodoList"> 
+<lit-todo-item todo="vm.singleTodo">
 ```    
- - Component that get a list of `todo` objects and and draw `<todo-item>` for each item in the list.
-```html
-<todo-item todo="vm.singleTodo"> 
-```    
- - Component that get a single `todo` object and render it's state (text and isDone checkbox).
 
-Using `ng-lit` you can build a new implementation for `<todo-item>` based on [litElement](https://github.com/Polymer/lit-element) with same interface (given todo object as prop) as your first incremental change:
-```html
-<lit-todo-item todo="vm.singleTodo"> 
-```    
- - Component that get a single `todo` object and render it's state (text and isDone checkbox).
+You can stop here and the app will still work fine. When you're ready to move on, you can continue by upgrading `<todo-list>` and finally `<todo-main-app>`.
 
-You can stop here or continue with upgrading `<todo-list>` and finally new app entry.
-
-## 👨‍🏫 Documentation
+## 👨‍🏫 API
 
 ### Properties
 
-Props that need to be extracted from angular should be to be added to `ngProps` method.
+When you want your component to get certain props, add them to the `ngProps` static getter. You still have to define those properties in the regular `lit-element` static `properties` getter. The idea is that eventually you'll remove angular from your app entirely, at which point you'll just need to remove the `ngProps` block;
 
-The following example will fetch `books` list and `selectedBook` object from angular while `userId` will be treated as normal litElement property:
+The following example will fetch a list of `books` and a `selectedBook` object from angular while `userId` will be treated as normal custom element property, without special arrangements for angularjs' data system.
+
 ```javascript
-  static get properties() {
-    return {
-      userId: { type: Number },
-      books: { type: Array }, 
-      selectedBook: { type: Object }
-    };
+static get properties() {
+  return {
+    userId: { type: Number },
+    books: { type: Array },
+    selectedBook: { type: Object }
+  };
+}
+
+static get ngProps() {
+  return {
+    books: { default: [] },
+    selectedBook: { default: {} }
   }
-  static get ngProps() {
-    return {
-      books: { default: [] },
-      selectedBook: { default: {} }
-    }
-  }
+}
 ```
 
 #### Defaults
-use the `default` option to pass a default value in case of angular scope or the value were not found (or `null`).
+use the `default` option to pass a default value which your prop will get in case angular doesn't have that value in scope, or the value found was `null`.
+
 ```javascript
-  static get ngProps() {
-    return {
-      selectedBook: { default: {title: '1984', author: 'George Orwell'} }
-    }
+static get ngProps() {
+  return {
+    selectedBook: { default: { title: '1984', author: 'George Orwell' } }
   }
+}
 ```
 
-#### Watch
-use the `watch: true` option to make litElement re-render on changes made to the property on angular's code.
+If you pass an object as the default, it will be cloned before it's assigned to the instance.
 
-The following example will re-render the litElement when `$scope.addBook()` is called:
+#### Watch
+Set the `watch` boolean option to make your element update when angular changes the property.
+
+The following example will update your element when `$scope.addBook()` is called:
 
 ```javascript
-// lit component
 class NgListBookList extends NgLit(LitElement) {
   static get properties() {
     return {
       books: { type: Array }
     };
   }
+
   static get ngProps() {
     return {
       books: { default: [], watch: true }
     }
   }
+
   render() {
     const { books } = this;
-    return html`${books.map(({title, author}) =>html`<li>${title} by ${author}</li>`)}`;
+    return html`
+      <ul>
+        ${books.map(({title, author}) => html`
+          <li>${title} by ${author}</li>
+        `)}
+      </ul>
+    `;
   }
 }
 customElements.define('ng-lit-books', NgListBookList);
@@ -154,14 +171,10 @@ customElements.define('ng-lit-books', NgListBookList);
 
 ```html
 <!-- angular -->
-<div ng-app="myApp" 
-     ng-controller="myCtrl">
-    <ng-lit-books 
-       books="myBooks">
-    </ng-lit-books>
-    <button 
-        ng-click="addBook({title: 'Anna Karenina', author: 'Leo Tolstoy'})">
-        Anna Karenina
+<div ng-app="myApp" ng-controller="myCtrl">
+    <ng-lit-books books="myBooks"></ng-lit-books>
+    <button ng-click="addBook({title: 'Anna Karenina', author: 'Leo Tolstoy'})">
+      Anna Karenina
     </button>
 </div>
 <script>
@@ -175,7 +188,7 @@ customElements.define('ng-lit-books', NgListBookList);
 </script>
 ```
 
-## 👨🏽‍💻  Develop
+## 👨🏽‍💻 Developing
 
 ```bash
 git clone git@github.com:oriweingart/ng-lit.git
@@ -183,20 +196,20 @@ cd ng-lit
 npm i
 
 ```
-##### Run demo
 
-```bash
-npm run demo
-```
-will open browser with the demos section
-
-##### Run local serve mode
+##### Run Locally
 
 ```bash
 npm run dev
 ```
 will open http://127.0.0.1:8081/test/e2e/index.html with all test cases on browser
 
+##### Run demo
+
+```bash
+npm run demo
+```
+will open browser with the demos section
 
 ##### Run tests
 end-to-end tests:
