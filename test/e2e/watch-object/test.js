@@ -1,6 +1,9 @@
 import { deepStrictEqual } from 'assert';
 import { init , NgNightmare } from '../utils';
 
+/**
+ * Render elements with object properties watched on the scope
+ */
 let nightmare = null;
 describe('watch object property', async function () {
 

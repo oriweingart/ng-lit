@@ -1,6 +1,9 @@
 import { deepStrictEqual } from 'assert';
 import { init , NgNightmare } from '../utils';
 
+/**
+ * Render elements with multiple properties: array and object
+ */
 let nightmare = null;
 describe('multiple properties: array and object', async function () {
 

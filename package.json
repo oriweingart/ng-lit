@@ -37,8 +37,10 @@
     "polyserve": "^0.27.15"
   },
   "scripts": {
-    "dev": "polyserve --npm --module-resolution=node --open --open-path /test/e2e/index.html",
+    "dev": "polyserve --npm --module-resolution=node --open --open-path ./node_modules/.cache/dmoe.html",
     "start": "npm run serve",
+    "build-demo": "node demo.js > ./node_modules/.cache/dmoe.html",
+    "demo": "npm run build-demo && npm run dev",
     "serve": "polyserve --npm --module-resolution=node",
     "test:unit": "mocha --require @babel/register --require @babel/polyfill test/unit/*.test.js",
     "test:e2e": "mocha --require @babel/register --require @babel/polyfill test/e2e/**/*.js",

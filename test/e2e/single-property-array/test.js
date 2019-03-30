@@ -1,6 +1,9 @@
 import { deepStrictEqual } from 'assert';
 import { init , NgNightmare } from '../utils';
 
+/**
+ * Render elements with single array property
+ */
 let nightmare = null;
 describe('single array property', async function () {
 

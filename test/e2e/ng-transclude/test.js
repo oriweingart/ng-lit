@@ -1,6 +1,10 @@
 import { deepStrictEqual } from 'assert';
 import { init , NgNightmare } from '../utils';
 
+
+/**
+ * Render elements inside ng-transclude
+ */
 let nightmare = null;
 describe('ng-transclude directive', async function() {
 

@@ -1,6 +1,9 @@
 import { deepStrictEqual } from 'assert';
 import { init , NgNightmare } from '../utils';
 
+/**
+ * Render elements with complex path as props such as item="vm.list[$index][0]"
+ */
 let nightmare = null;
 describe('complex path on scope', async function() {
 

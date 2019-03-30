@@ -1,6 +1,9 @@
 import { deepStrictEqual } from 'assert';
 import { init , NgNightmare } from '../utils';
 
+/**
+ * Render elements with default properties such as user: { default: {} }
+ */
 let nightmare = null;
 describe('multiple properties with default values', async function () {
 

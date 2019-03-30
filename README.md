@@ -196,6 +196,7 @@ cd ng-lit
 npm i
 
 ```
+
 ##### Run Locally
 
 ```bash
@@ -203,6 +204,12 @@ npm run dev
 ```
 will open http://127.0.0.1:8081/test/e2e/index.html with all test cases on browser
 
+##### Run demo
+
+```bash
+npm run demo
+```
+will open browser with the demos section
 
 ##### Run tests
 end-to-end tests:
