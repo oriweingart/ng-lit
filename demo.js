@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return,consistent-return,prefer-destructuring */
 const fs = require('fs');
 
 console.log(`
