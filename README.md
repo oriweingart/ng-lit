@@ -100,6 +100,66 @@ You can stop here and the app will still work fine. When you're ready to move on
 
 ## 👨‍🏫 API
 
+
+#### Reactive
+Dy default `ng-lit` will render your component on changes made to object or array's reference.
+
+The following example will update your element when `$scope.myBook` is updated with new object:
+
+```javascript
+class NgBook extends NgLit(LitElement) {
+  static get properties() {
+    return {
+      book: { type: Object }
+    };
+  }
+
+  static get ngProps() {
+    return {
+      book: { type: Object }
+    }
+  }
+
+  render() {
+    const { book } = this;
+    return html`
+      <span>${book.title} by ${book.author}</span>
+    `;
+  }
+}
+customElements.define('ng-lit-book', NgListBookList);
+```
+
+```html
+<!-- angular -->
+<div ng-app="myApp" 
+     ng-controller="myCtrl">
+    <ng-lit-books 
+       books="myBooks">
+    </ng-lit-books>
+    <button 
+        ng-click="addBook({title: 'Anna Karenina', author: 'Leo Tolstoy'})">
+        Anna Karenina
+<div ng-app="myApp" ng-controller="myCtrl">
+    <ng-lit-book book="myBook"></ng-lit-book>
+    <button ng-click="selectBook({title: 'Anna Karenina', author: 'Leo Tolstoy'})">
+      Anna Karenina
+    </button>
+    <button ng-click="selectBook({title: '1984', author: 'George Orwell' })">
+      1894
+    </button>
+</div>
+<script>
+  angular.module('myApp', [])
+    .controller('myCtrl', $scope => {
+        $scope.myBook = null;
+        $scope.selectBook = book => {
+            $scope.myBook = book;  
+        }
+  });
+</script>
+```
+
 ### Properties
 
 When you want your component to get certain props, add them to the `ngProps` static getter. You still have to define those properties in the regular `lit-element` static `properties` getter. The idea is that eventually you'll remove angular from your app entirely, at which point you'll just need to remove the `ngProps` block;
