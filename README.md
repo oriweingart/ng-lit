@@ -3,6 +3,7 @@
 # 🔌 Boost Your Old [AngularJS](https://github.com/angular/angular.js) App [LitElement](https://github.com/Polymer/lit-element) Components.
 [![CircleCI](https://circleci.com/gh/oriweingart/ng-lit.svg?style=svg)](https://circleci.com/gh/oriweingart/ng-lit)
 [![NPM version](https://badge.fury.io/js/ng-lit.svg)](https://travis-ci.com/oriweingart/ng-lit)
+[![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
 
 Are you stuck maintaining a crufy old angularjs 1.x app? Wish you could be writing straightforward component-based views but can't afford to move the whole thing to the Fancy New Framework™️? With LitElement and some helpers from ng-lit, you can **incrementally update** your old app piece by piece.
 
@@ -242,42 +243,33 @@ customElements.define('ng-lit-books', NgListBookList);
 
 ## 👨🏽‍💻 Developing
 
+Installation
 ```bash
 git clone git@github.com:oriweingart/ng-lit.git
 cd ng-lit
 npm i
-
 ```
-
-##### Run Locally
-
+Run Locally
 ```bash
 npm run dev
 ```
-will open http://127.0.0.1:8081/test/e2e/index.html with all test cases on browser
-
-##### Run demo
-
+Run demo examples
 ```bash
 npm run demo
 ```
-will open browser with the demos section
-
-##### Run tests
-end-to-end tests:
+Run end-to-end tests:
 ```bash
 npm run test:e2e
 ```
-unit tests
+Run unit tests
 ```bash
 npm run test:unit
 ```
-both
+Run both unit and e2e tests
 ```bash
 npm run test
 ```
-
-##### Lint
+Run Lint
 ```bash
 npm run lint
 ```
