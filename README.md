@@ -195,7 +195,7 @@ Set the `watch` boolean option to make your element update when angular changes 
 The following example will update your element when `$scope.addBook()` is called:
 
 ```javascript
-class NgListBookList extends NgLit(LitElement) {
+class NgLitBookList extends NgLit(LitElement) {
   static get properties() {
     return {
       books: { type: Array }
@@ -219,7 +219,7 @@ class NgListBookList extends NgLit(LitElement) {
     `;
   }
 }
-customElements.define('ng-lit-books', NgListBookList);
+customElements.define('ng-lit-books', NgLitBookList);
 ```
 
 ```html
@@ -247,9 +247,10 @@ We recommend using [@open-wc/testing-helpers](https://github.com/open-wc/open-wc
 
 In order to Unit Test `ng-lit` component we just need to mock angular scope, to do so we expose `MockScope` API.
 
-The following example will text `NgListBookList` component:
+The following example will text `NgLitBookList` component:
 
 ```javascript
+  import '/components/NgLitBookList.js' 
   import {fixture, html} from '@open-wc/testing-helpers';
   import {MockScope} from 'ng-lit/mock';
 
@@ -265,7 +266,7 @@ The following example will text `NgListBookList` component:
           </ng-lit-books>
       `);
       const renderedBooks = shadowRoot.querySelectorAll('li');
-      expect(renderedBooks.length).to.equal(0);
+      expect(renderedBooks.length).to.equal(2);
       expect(renderedBooks[0]).to.equal('Anna Karenina by Leo Tolstoy');
       expect(renderedBooks[1]).to.equal('1984 by George Orwell');
     })
