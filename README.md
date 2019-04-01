@@ -250,6 +250,7 @@ In order to Unit Test `ng-lit` component we just need to mock angular scope, to 
 The following example will text `NgLitBookList` component:
 
 ```javascript
+  import '/components/NgLitBookList.js' 
   import {fixture, html} from '@open-wc/testing-helpers';
   import {MockScope} from 'ng-lit/mock';
 
