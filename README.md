@@ -265,7 +265,7 @@ The following example will text `NgLitBookList` component:
           </ng-lit-books>
       `);
       const renderedBooks = shadowRoot.querySelectorAll('li');
-      expect(renderedBooks.length).to.equal(0);
+      expect(renderedBooks.length).to.equal(2);
       expect(renderedBooks[0]).to.equal('Anna Karenina by Leo Tolstoy');
       expect(renderedBooks[1]).to.equal('1984 by George Orwell');
     })
