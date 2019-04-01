@@ -128,7 +128,7 @@ class NgBook extends NgLit(LitElement) {
     `;
   }
 }
-customElements.define('ng-lit-book', NgListBookList);
+customElements.define('ng-lit-book', NgBook);
 ```
 
 ```html
@@ -241,6 +241,37 @@ customElements.define('ng-lit-books', NgListBookList);
 </script>
 ```
 
+## 👨🏽‍💻 Unit Test your components
+
+We recommend using [@open-wc/testing-helpers](https://github.com/open-wc/open-wc/tree/master/packages/testing-helpers) for unit testing your Web Components.
+
+In order to Unit Test `ng-lit` component we just need to mock angular scope, to do so we expose `MockScope` API.
+
+The following example will text `NgListBookList` component:
+
+```javascript
+  import {fixture, html} from '@open-wc/testing-helpers';
+  import {MockScope} from 'ng-lit/mock';
+
+  describe('ng-lit-books', async () => {
+    it('should render component with 2 books', async () => {
+      // Mock angular's scope with 2 books
+      MockScope({myBooks: [
+        {title: 'Anna Karenina', author: 'Leo Tolstoy'},
+        {title: '1984', author: 'George Orwell' }
+      ]});
+      const {shadowRoot} = await fixture(html`
+          <ng-lit-books books="myBooks">
+          </ng-lit-books>
+      `);
+      const renderedBooks = shadowRoot.querySelectorAll('li');
+      expect(renderedBooks.length).to.equal(0);
+      expect(renderedBooks[0]).to.equal('Anna Karenina by Leo Tolstoy');
+      expect(renderedBooks[1]).to.equal('1984 by George Orwell');
+    })
+  });
+```
+
 ## 👨🏽‍💻 Developing
 
 Installation
@@ -257,7 +288,7 @@ Run demo examples
 ```bash
 npm run demo
 ```
-Run end-to-end tests:
+Run end-to-end tests
 ```bash
 npm run test:e2e
 ```
