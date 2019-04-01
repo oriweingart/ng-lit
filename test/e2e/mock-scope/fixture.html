@@ -1,0 +1,42 @@
+<script src="../../../node_modules/angular/angular.js"></script>
+<script src="../../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+
+<script type="module">
+  import { MockScope } from "../../../mock";
+  MockScope({ngUser:{firstName: "John", lastName: "Doe"}})
+</script>
+
+<script type="module">
+  import { LitElement, html } from "lit-element";
+  import { NgLit } from "../../../index";
+
+  class NgLitUser extends NgLit(LitElement) {
+    static get properties() {
+      return {
+        user: { type: Object }
+      };
+    }
+
+    static get ngProps() {
+      return {
+        user: { default: {} }
+      }
+    }
+
+    render() {
+      const {
+        user
+      } = this;
+
+      return html`${user ? html`<div>user name in ng-lit: ${`${user.firstName} ${user.lastName}`}</div>` : null}`;
+    }
+  }
+  customElements.define('ng-lit-user', NgLitUser);
+</script>
+<div ng-app="myApp" ng-controller="myCtrl">
+    <ng-lit-user
+            id="ng-lit-element"
+            user="ngUser">
+    </ng-lit-user>
+</div>
+
