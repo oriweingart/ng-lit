@@ -245,9 +245,9 @@ customElements.define('ng-lit-books', NgLitBookList);
 
 We recommend using [@open-wc/testing-helpers](https://github.com/open-wc/open-wc/tree/master/packages/testing-helpers) for unit testing your Web Components.
 
-In order to Unit Test `ng-lit` component we just need to mock angular scope, to do so we expose `MockScope` API.
+In order to unit test `ng-lit` component we just need to mock angular scope, to do so we expose `MockScope` API.
 
-The following example will text `NgLitBookList` component:
+The following example test `NgLitBookList` component:
 
 ```javascript
   import '/components/NgLitBookList.js' 
