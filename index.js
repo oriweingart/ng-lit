@@ -26,6 +26,9 @@ export const NgLit = baseElement => {
          * Extend the LitElement `update` to check for changed properties and inject angular properties from scope if possible
          */
         update(changedProps) {
+            if (!this.__ngScopeOpts__) {
+                this.__ngScopeOpts__ = {};
+            }
             if (this.__shouldUpdateNgProps(changedProps)) {
                 this.__updateWithoutNgScopeSync(changedProps);
                 (async () => {
@@ -122,6 +125,48 @@ export const NgLit = baseElement => {
 
 
         /**
+         * Return true is a property is already watched on the scope
+         * @param ngPropName
+         * @returns {*}
+         * @private
+         */
+        __isWatchedProp(ngPropName) {
+            return ((this.__ngScopeOpts__ || {})[ngPropName] || {}).watch;
+        }
+
+        /**
+         * Set a property as been watched on the scope
+         * @param ngPropName
+         * @private
+         */
+        __markWatchedProp(ngPropName) {
+            this.__ngScopeOpts__ = this.__ngScopeOpts__ || {};
+            this.__ngScopeOpts__[ngPropName] = this.__ngScopeOpts__[ngPropName] || {};
+            this.__ngScopeOpts__[ngPropName].watch = true;
+        }
+
+        /**
+         * Return true is a property was already assign with default value
+         * @param ngPropName
+         * @returns {*}
+         * @private
+         */
+        __isSetDefaultProp(ngPropName) {
+            return ((this.__ngScopeOpts__ || {})[ngPropName] || {}).setDefault;
+        }
+
+        /**
+         * Set a property as been assigned with default value
+         * @param ngPropName
+         * @private
+         */
+        __markSetDefaultProp(ngPropName) {
+            this.__ngScopeOpts__ = this.__ngScopeOpts__ || {};
+            this.__ngScopeOpts__[ngPropName] = this.__ngScopeOpts__[ngPropName] || {};
+            this.__ngScopeOpts__[ngPropName].setDefault = true;
+        }
+
+        /**
          * Commit an update before we have the scope
          * @param ngScope
          * @param changedProps
@@ -130,9 +175,11 @@ export const NgLit = baseElement => {
         __updateWithoutNgScopeSync(changedProps) {
             for (const [ngPropName, ngPropOptions] of Object.entries(this.constructor.ngProps)) {
                 const ngLitValue = changedProps.get(ngPropName);
-                if ((!ngLitValue || typeof ngLitValue === 'string') && ngPropOptions.default) {
+                if (!this.__isSetDefaultProp(ngPropName) && (!ngLitValue || typeof ngLitValue === 'string') && ngPropOptions.default) {
                     // apply default if any
+                    this.__markSetDefaultProp(ngPropName);
                     this[ngPropName] = cloneDeep(ngPropOptions.default);
+                    changedProps.set(ngPropName, this[ngPropName]);
                 }
             }
             super.update(changedProps);
@@ -155,7 +202,7 @@ export const NgLit = baseElement => {
                 let ngValueOnScope = getter(ngScope);
                 if (typeof ngValueOnScope === 'string') {
                     // Second Try: lodash get
-                   ngValueOnScope = get(ngScope, ngValueOnScope);
+                    ngValueOnScope = get(ngScope, ngValueOnScope);
                 }
                 if (!ngValueOnScope || typeof ngValueOnScope === 'string') {
                     // apply default if any
@@ -166,7 +213,7 @@ export const NgLit = baseElement => {
                             this[ngPropName] = cloneDeep(ngPropOptions.default);
                             changedProps.set(ngPropName, this[ngPropName]);
                         } else {
-                        // else delete it
+                            // else delete it
                             this[ngPropName] = null;
                             changedProps.delete(ngPropName);
                         }
@@ -175,13 +222,19 @@ export const NgLit = baseElement => {
                     // watch for array and objects change on lit
                     watchLitIfNeeded(ngPropOptions, this, ngScope, ngValueOnScope);
                     // watch for reference change on scope
-                    ngScope.$watch(pathOnScope, newValue=> {
-                      this[ngPropName] = newValue;
-                      changedProps.set(ngPropName, newValue);
-                      super.update(changedProps);
-                    });
-                    this[ngPropName] = ngValueOnScope;
-                    changedProps.set(ngPropName, ngValueOnScope);
+                    if (!this.__isWatchedProp(ngPropName)) {
+                        this.__markWatchedProp(ngPropName);
+                        console.info(`watching: ${pathOnScope}`);
+                        ngScope.$watch(pathOnScope, newValue=> {
+                            this[ngPropName] = newValue;
+                            changedProps.set(ngPropName, newValue);
+                            super.update(changedProps);
+                        });
+                    }
+                    if (this[ngPropName] !== ngValueOnScope) {
+                        this[ngPropName] = ngValueOnScope;
+                        changedProps.set(ngPropName, ngValueOnScope);
+                    }
                 }
             }
             super.update(changedProps);
